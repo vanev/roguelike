@@ -1,8 +1,8 @@
 module Subscriptions exposing (..)
 
-import Model exposing (..)
+import Models.Game exposing (Game)
 import Messages exposing (Msg)
 
-subscriptions : Model -> Sub Msg
+subscriptions : Game -> Sub Msg
 subscriptions model =
   Sub.none

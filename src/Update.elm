@@ -1,11 +1,11 @@
 module Update exposing (update)
 
-import Model exposing (..)
 import Messages exposing (..)
+import Models.Game exposing (Game)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : Msg -> Game -> ( Game, Cmd Msg )
+update msg game =
   case msg of
     NoOp ->
-      ( model, Cmd.none )
+      ( game, Cmd.none )

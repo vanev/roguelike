@@ -1,10 +1,10 @@
 module View exposing (..)
 
-import Model exposing (..)
+import Models.Game exposing (..)
 import Html exposing (Html, div, text)
 import Messages exposing (Msg)
 
-view : Model -> Html Msg
-view model =
+view : Game -> Html Msg
+view game =
   div []
-      [ text model ]
+      [ text game ]

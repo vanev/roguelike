@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (program)
-import Model exposing (..)
+import Models.Game exposing (..)
 import Messages exposing (Msg)
 import Update exposing (update)
 import View exposing (view)
@@ -9,15 +9,15 @@ import Subscriptions exposing (subscriptions)
 
 -- Init
 
-init : ( Model, Cmd Msg )
+init : ( Game, Cmd Msg )
 init =
-  ( initial
+  ( Models.Game.initial
   , Cmd.none
   )
 
 -- Main
 
-main : Program Never Model Msg
+main : Program Never Game Msg
 main =
   program
     { init = init

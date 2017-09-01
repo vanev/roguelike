@@ -4,7 +4,7 @@ import Html exposing (program)
 import Models.Game exposing (..)
 import Messages exposing (Msg)
 import Update exposing (update)
-import View exposing (view)
+import Views.View exposing (view)
 import Subscriptions exposing (subscriptions)
 
 -- Init

@@ -2,7 +2,8 @@ module Views.World exposing (panel)
 
 import Models.Game exposing (Game)
 import Views.Panel exposing (..)
-import Html exposing (text)
+import Html exposing (text, pre)
+import Views.World.World
 
 -- Displays the view of the world, centered around player's location.
 
@@ -16,7 +17,12 @@ position =
 
 content : Game -> Content
 content game =
-  Leaf (text "World!")
+  Views.World.World.toWorld game
+    |> Views.World.World.toString
+    |> text
+    |> List.singleton
+    |> pre []
+    |> Leaf
 
 panel : Game -> Panel
 panel game =

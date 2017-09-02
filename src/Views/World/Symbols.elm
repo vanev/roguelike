@@ -4,7 +4,7 @@ blank : String
 blank = ""
 
 space : String
-space = "0"
+space = " "
 
 lineBreak : String
 lineBreak = """

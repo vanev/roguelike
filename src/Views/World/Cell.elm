@@ -1,11 +1,10 @@
 module Views.World.Cell exposing (..)
 
-import Views.World.Symbols exposing (..)
+import Models.Cell
 import Maybe exposing (withDefault)
-import String exposing (join)
 
 type alias Cell =
-  Maybe String
+  Maybe Models.Cell.Cell
 
 merge : Cell -> Cell -> Cell
 merge bottom top =
@@ -15,5 +14,16 @@ merge bottom top =
     Nothing ->
       bottom
 
+toCell : Cell -> Models.Cell.Cell
+toCell cell =
+  case cell of
+    Just c -> c
+    Nothing -> Models.Cell.Empty
+
 toString : Cell -> String
-toString = withDefault blank
+toString cell =
+  case (toCell cell) of
+    Models.Cell.Wall -> "#"
+    Models.Cell.Floor -> "."
+    Models.Cell.Player -> "@"
+    Models.Cell.Empty -> " "

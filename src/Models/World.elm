@@ -1,21 +1,22 @@
 module Models.World exposing (..)
 
+import Models.Cell exposing (..)
 import Models.Dimensions exposing (Dimensions)
 import Matrix exposing (Matrix)
 
 type alias World =
-  { map : Matrix String
+  { map : Matrix Cell
   }
 
 initial : World
 initial =
   { map =
       Matrix.fromList
-        [ [ "#", "#", "#", "#", "#" ]
-        , [ "#", "0", "0", "0", "#" ]
-        , [ "#", "0", "0", "0", "#" ]
-        , [ "#", "0", "0", "0", "#" ]
-        , [ "#", "#", "#", "#", "#" ]
+        [ [ Wall, Wall, Wall, Wall, Wall ]
+        , [ Wall, Floor, Floor, Floor, Wall ]
+        , [ Wall, Floor, Floor, Floor, Wall ]
+        , [ Wall, Floor, Floor, Floor, Wall ]
+        , [ Wall, Wall, Wall, Wall, Wall ]
         ]
   }
 

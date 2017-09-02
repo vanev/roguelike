@@ -3,6 +3,7 @@ module Views.World.World exposing (..)
 import Views.World.Layer exposing (Layer)
 import Models.Game exposing (Game)
 import Models.World
+import Models.Cell
 import Models.Dimensions exposing (Dimensions)
 import List exposing (foldr, head, tail, repeat)
 import Maybe exposing (withDefault)
@@ -48,11 +49,10 @@ toMapLayer game =
 toCharacterLayer : Game -> Layer
 toCharacterLayer game =
   let
-    location = Matrix.loc game.player.y game.player.x
     dimensions = Models.World.dimensions game.world
   in
     emptyLayer dimensions
-      |> Matrix.set location (Just "@")
+      |> Matrix.set game.player.location (Just Models.Cell.Player)
 
 emptyLayer : Dimensions -> Layer
 emptyLayer (width, height) =

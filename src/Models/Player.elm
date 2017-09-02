@@ -1,14 +1,14 @@
 module Models.Player exposing (..)
 
+import Matrix exposing (Location)
+
 
 type alias Player =
-  { x : Int
-  , y : Int
+  { location : Location
   }
 
-  
+
 initial : Player
 initial =
-  { x = 0
-  , y = 0
+  { location = (1,1)
   }

@@ -1,14 +1,28 @@
 module Models.World exposing (..)
 
+import Models.Dimensions exposing (Dimensions)
+import Matrix exposing (Matrix)
 
 type alias World =
-  { height : Int
-  , width : Int
+  { map : Matrix String
   }
 
-  
 initial : World
 initial =
-  { height = 20
-  , width = 20
+  { map =
+      Matrix.fromList
+        [ [ "#", "#", "#", "#", "#" ]
+        , [ "#", "0", "0", "0", "#" ]
+        , [ "#", "0", "0", "0", "#" ]
+        , [ "#", "0", "0", "0", "#" ]
+        , [ "#", "#", "#", "#", "#" ]
+        ]
   }
+
+dimensions : World -> Dimensions
+dimensions world =
+  let
+    width = Matrix.colCount world.map
+    height = Matrix.rowCount world.map
+  in
+    (width, height)

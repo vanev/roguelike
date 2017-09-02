@@ -2,6 +2,8 @@ module Views.World.World exposing (..)
 
 import Views.World.Layer exposing (Layer)
 import Models.Game exposing (Game)
+import Models.World
+import Models.Dimensions exposing (Dimensions)
 import List exposing (foldr, head, tail, repeat)
 import Maybe exposing (withDefault)
 import Matrix
@@ -9,11 +11,21 @@ import Matrix
 type alias World =
   List Layer
 
+dimensions : World -> Dimensions
+dimensions world =
+  let
+    layer = List.head world
+    width = Maybe.map Matrix.colCount layer |> Maybe.withDefault 0
+    height = Maybe.map Matrix.rowCount layer |> Maybe.withDefault 0
+  in
+    (width, height)
+
 flatten : World -> Layer
 flatten world =
   let
-    base = withDefault emptyLayer (head world)
-    rest = withDefault [emptyLayer] (tail world)
+    empty = emptyLayer (dimensions world)
+    base = withDefault empty (head world)
+    rest = withDefault [empty] (tail world)
   in
     foldr Views.World.Layer.merge base rest
 
@@ -30,21 +42,18 @@ toWorld game =
 
 toMapLayer : Game -> Layer
 toMapLayer game =
-  Matrix.fromList [ [ Just "#", Just "#", Just "#", Just "#", Just "#" ]
-  , [ Just "#", Just "0", Just "0", Just "0", Just "#" ]
-  , [ Just "#", Just "0", Just "0", Just "0", Just "#" ]
-  , [ Just "#", Just "0", Just "0", Just "0", Just "#" ]
-  , [ Just "#", Just "#", Just "#", Just "#", Just "#" ]
-  ]
+  game.world.map
+    |> Matrix.map Just
 
 toCharacterLayer : Game -> Layer
 toCharacterLayer game =
   let
     location = Matrix.loc game.player.y game.player.x
+    dimensions = Models.World.dimensions game.world
   in
-    emptyLayer
+    emptyLayer dimensions
       |> Matrix.set location (Just "@")
 
-emptyLayer : Layer
-emptyLayer =
-  Matrix.matrix 10 10 (\_ -> Nothing)
+emptyLayer : Dimensions -> Layer
+emptyLayer (width, height) =
+  Matrix.matrix width height (\_ -> Nothing)

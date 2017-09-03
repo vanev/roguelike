@@ -26,4 +26,6 @@ toString cell =
     Models.Cell.Wall -> "#"
     Models.Cell.Floor -> "."
     Models.Cell.Player -> "@"
+    Models.Cell.ClosedDoor -> "D"
+    Models.Cell.OpenDoor -> "d"
     Models.Cell.Empty -> " "

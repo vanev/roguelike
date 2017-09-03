@@ -26,6 +26,8 @@ move world location player =
         case c of
           Models.Cell.Floor ->
             { player | location = location }
+          Models.Cell.OpenDoor ->
+            { player | location = location }
           _ ->
             player
       Nothing ->

@@ -17,3 +17,11 @@ east (row, col) =
 west : Location -> Location
 west (row, col) =
   (row, col - 1)
+
+neighbors : Location -> List Location
+neighbors location =
+  [ north location
+  , east location
+  , south location
+  , west location
+  ]

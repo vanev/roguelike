@@ -7,6 +7,7 @@ type Key = MoveNorth
          | MoveSouth
          | MoveEast
          | MoveWest
+         | Action
          | Unmapped
 
 fromCode : KeyCode -> Key
@@ -21,4 +22,5 @@ fromChar char =
     's' -> MoveSouth
     'd' -> MoveEast
     'a' -> MoveWest
+    'f' -> Action
     _ -> Unmapped

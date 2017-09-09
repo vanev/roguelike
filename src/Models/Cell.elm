@@ -21,7 +21,15 @@ fromString string =
 
 isDoor : Cell -> Bool
 isDoor cell =
-  cell == OpenDoor || cell == ClosedDoor
+  (isOpenDoor cell) || (isClosedDoor cell)
+
+isOpenDoor : Cell -> Bool
+isOpenDoor cell =
+  cell == OpenDoor
+
+isClosedDoor : Cell -> Bool
+isClosedDoor cell =
+  cell == ClosedDoor
 
 toggleDoor : Cell -> Cell
 toggleDoor cell =

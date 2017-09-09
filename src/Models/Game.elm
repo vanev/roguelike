@@ -2,6 +2,7 @@ module Models.Game exposing (..)
 
 import Models.Player exposing (..)
 import Models.World exposing (..)
+import Models.Log exposing (..)
 import Models.Cell exposing (..)
 import Matrix exposing (Location)
 import Location.Extra exposing (..)
@@ -10,6 +11,7 @@ import Location.Extra exposing (..)
 type alias Game =
   { player : Player
   , world : World
+  , log : Log
   }
 
 
@@ -17,6 +19,7 @@ initial : Game
 initial =
   { player = Models.Player.initial
   , world = Models.World.initial
+  , log = Models.Log.initial
   }
 
 
@@ -45,5 +48,7 @@ toggleDoor (cell, location) game =
     newCell = Models.Cell.toggleDoor cell
     newMap = Matrix.set location newCell world.map
     newWorld = { world | map = newMap }
+    logLine = if isOpenDoor cell then "Door closed." else "Door opened."
+    newLog = Models.Log.addLine logLine game.log
   in
-    { game | world = newWorld }
+    { game | world = newWorld, log = newLog }

@@ -4,23 +4,17 @@ import Views.World.Symbols exposing (..)
 import Views.World.Cell exposing (Cell)
 import Matrix exposing (Matrix)
 import List
+import List.Extra
 import String
-import Maybe
 
 type alias Layer =
   Matrix Cell
 
 zip : Matrix a -> Matrix a -> Matrix (a, a)
 zip first second =
-  let
-    zipper location firstCell =
-      let
-        secondCell = Matrix.get location second
-          |> Maybe.withDefault firstCell
-      in
-        (firstCell, secondCell)
-  in
-    Matrix.mapWithLocation zipper first
+  List.Extra.zip (Matrix.toList first) (Matrix.toList second)
+    |> List.map (uncurry List.Extra.zip)
+    |> Matrix.fromList
 
 merge : Layer -> Layer -> Layer
 merge bottom top =

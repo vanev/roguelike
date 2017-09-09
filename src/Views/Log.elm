@@ -2,7 +2,12 @@ module Views.Log exposing (panel)
 
 import Models.Game exposing (Game)
 import Views.Panel exposing (..)
-import Html exposing (text)
+import Html exposing (text, li, ul)
+import List
+
+lineBreak : String
+lineBreak = """
+"""
 
 -- Displays log of messages. Could be combat info, dialogue, etc.
 
@@ -16,7 +21,12 @@ position =
 
 content : Game -> Content
 content game =
-  Leaf (text "Log!")
+  game.log.lines
+    |> List.map text
+    |> List.map List.singleton
+    |> List.map (li [])
+    |> ul []
+    |> Leaf
 
 panel : Game -> Panel
 panel game =

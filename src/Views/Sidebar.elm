@@ -1,8 +1,11 @@
 module Views.Sidebar exposing (panel)
 
-import Models.Game exposing (Game)
 import Views.Panel exposing (..)
-import Html exposing (text)
+import Models.Game exposing (Game)
+import Models.Action exposing (toSidebarString)
+import Actions.Index exposing (availableActions)
+import Html exposing (text, li, ul)
+import List exposing (map, singleton)
 
 -- Displays available actions (movment, inventory, quit, etc.)
 
@@ -16,7 +19,13 @@ position =
 
 content : Game -> Content
 content game =
-  Leaf (text "Sidebar!")
+  availableActions game
+    |> map toSidebarString
+    |> map text
+    |> map singleton
+    |> map (li [])
+    |> ul []
+    |> Leaf
 
 panel : Game -> Panel
 panel game =

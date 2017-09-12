@@ -1,10 +1,11 @@
 module Update exposing (update)
 
-import Models.Game exposing (Game, movePlayer, performAction)
+import Models.Game exposing (Game)
+import Models.Action exposing (Action)
 import Messages exposing (Msg)
 import Keyboard exposing (KeyCode)
-import Keymap.Key exposing (..)
-import Location.Extra exposing (..)
+import Char exposing (fromCode)
+import Actions.Index exposing (findByKey)
 
 
 update : Msg -> Game -> ( Game, Cmd Msg )
@@ -19,16 +20,15 @@ update msg game =
 
 handleKeyMsg : KeyCode -> Game -> Game
 handleKeyMsg keyCode game =
-  case Keymap.Key.fromCode keyCode of
-    MoveNorth ->
-      movePlayer north game
-    MoveWest ->
-      movePlayer west game
-    MoveSouth ->
-      movePlayer south game
-    MoveEast ->
-      movePlayer east game
-    Action ->
-      performAction game
-    Unmapped ->
+  findByKey (fromCode keyCode) game
+    |> performAction game
+
+
+performAction : Game -> Maybe Action -> Game
+performAction game maybeAction =
+  case maybeAction of
+    Just action ->
+      action.update game
+
+    Nothing ->
       game

@@ -1,22 +1,22 @@
-module Models.Player exposing (..)
+module Models.Character exposing (..)
 
 import Models.World exposing (World)
 import Models.Cell
 import Matrix exposing (Location)
 
 
-type alias Player =
+type alias Character =
   { location : Location
   }
 
 
-initial : Player
+initial : Character
 initial =
   { location = (1,1)
   }
 
 
-move : World -> Location -> Player -> Player
+move : World -> Location -> Character -> Character
 move world location player =
   let
     cell = Matrix.get location world.map

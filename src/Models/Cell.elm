@@ -5,7 +5,7 @@ type Cell = Wall
           | Floor
           | ClosedDoor
           | OpenDoor
-          | Player
+          | Character
           | Empty
 
 

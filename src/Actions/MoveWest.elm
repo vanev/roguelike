@@ -2,7 +2,7 @@ module Actions.MoveWest exposing (moveWest)
 
 import Models.Game exposing (Game)
 import Models.Action exposing (Action)
-import Models.Player exposing (..)
+import Models.Character exposing (..)
 import Location.Extra exposing (..)
 import Matrix exposing (..)
 

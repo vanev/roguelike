@@ -1,12 +1,12 @@
 module Models.Game exposing (..)
 
-import Models.Player exposing (Player)
+import Models.Character exposing (Character)
 import Models.World exposing (World)
 import Models.Log exposing (Log)
 
 
 type alias Game =
-  { player : Player
+  { player : Character
   , world : World
   , log : Log
   }
@@ -14,7 +14,7 @@ type alias Game =
 
 initial : Game
 initial =
-  { player = Models.Player.initial
+  { player = Models.Character.initial
   , world = Models.World.initial
   , log = Models.Log.initial
   }

@@ -25,7 +25,7 @@ toString cell =
   case (toCell cell) of
     Models.Cell.Wall -> "#"
     Models.Cell.Floor -> "."
-    Models.Cell.Player -> "@"
+    Models.Cell.Character -> "@"
     Models.Cell.ClosedDoor -> "D"
     Models.Cell.OpenDoor -> "d"
     Models.Cell.Empty -> " "

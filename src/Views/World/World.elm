@@ -52,7 +52,7 @@ toCharacterLayer game =
     dimensions = Models.World.dimensions game.world
   in
     emptyLayer dimensions
-      |> Matrix.set game.player.location (Just Models.Cell.Player)
+      |> Matrix.set game.player.location (Just Models.Cell.Character)
 
 emptyLayer : Dimensions -> Layer
 emptyLayer (width, height) =

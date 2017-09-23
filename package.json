@@ -7,7 +7,7 @@
   "author": "Evan Siegel <siegel.evan@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "client": "./node_modules/.bin/webpack-dev-server --port 3000"
+    "client": "./node_modules/.bin/webpack-dev-server"
   },
   "dependencies": {
     "css-loader": "^0.28.5",

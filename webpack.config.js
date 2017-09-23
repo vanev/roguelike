@@ -1,5 +1,7 @@
 const path = require('path')
 
+const port  = process.env.PORT || 8080
+
 module.exports = {
   entry: {
     app: [
@@ -36,5 +38,10 @@ module.exports = {
   devServer: {
     inline: true,
     stats: { colors: true },
+    allowedHosts: [
+      'roguelike.dev',
+      'roguelike.test',
+    ],
+    port: port,
   },
 }

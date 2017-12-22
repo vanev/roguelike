@@ -1,6 +1,6 @@
-module Models.Action exposing (..)
+module Action exposing (..)
 
-import Models.Game exposing (Game)
+import Game exposing (Game)
 import String exposing (fromChar)
 
 

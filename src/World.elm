@@ -1,7 +1,7 @@
-module Models.World exposing (..)
+module World exposing (..)
 
-import Models.Cell exposing (..)
-import Models.Dimensions exposing (Dimensions)
+import Cell exposing (..)
+import Dimensions exposing (Dimensions)
 import Views.World.Symbols exposing (..)
 import Matrix exposing (Matrix)
 import String
@@ -45,7 +45,7 @@ fromString string =
     map = String.split lineBreak string
             |> List.map (String.split blank)
             |> Matrix.fromList
-            |> Matrix.map Models.Cell.fromString
+            |> Matrix.map Cell.fromString
   in
     { map = map }
 

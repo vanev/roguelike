@@ -1,7 +1,7 @@
 module Location.Extra exposing (..)
 
-import Models.World exposing (World)
-import Models.Cell exposing (Cell)
+import World exposing (World)
+import Cell exposing (Cell)
 import Matrix exposing (Location, get)
 
 

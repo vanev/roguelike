@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (program)
-import Models.Game exposing (..)
+import Game exposing (..)
 import Messages exposing (Msg)
 import Update exposing (update)
 import Views.View exposing (view)
@@ -11,7 +11,7 @@ import Subscriptions exposing (subscriptions)
 
 init : ( Game, Cmd Msg )
 init =
-  ( Models.Game.initial
+  ( Game.initial
   , Cmd.none
   )
 

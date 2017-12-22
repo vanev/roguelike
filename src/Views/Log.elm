@@ -1,6 +1,6 @@
 module Views.Log exposing (panel)
 
-import Models.Game exposing (Game)
+import Game exposing (Game)
 import Views.Panel exposing (..)
 import Html exposing (text, li, ul)
 import List

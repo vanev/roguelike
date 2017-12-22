@@ -1,6 +1,6 @@
 module Views.World exposing (panel)
 
-import Models.Game exposing (Game)
+import Game exposing (Game)
 import Views.Panel exposing (..)
 import Html exposing (text, pre)
 import Views.World.World

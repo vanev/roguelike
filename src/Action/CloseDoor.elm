@@ -1,20 +1,20 @@
-module Actions.OpenDoor exposing (openDoor)
+module Action.CloseDoor exposing (closeDoor)
 
-import Models.Game exposing (Game)
-import Models.Action exposing (Action)
-import Models.Cell exposing (isClosedDoor)
-import Models.Log exposing (addLine)
+import Game exposing (Game)
+import Action exposing (Action)
+import Cell exposing (isOpenDoor)
+import Log exposing (addLine)
 import Location.Extra exposing (east, neighbors, pairWithElement)
 import Tuple exposing (first, second)
 import List exposing (filterMap, filter, isEmpty, map, foldr)
 import Matrix exposing (Location, set)
 
 
-openDoor : Action
-openDoor =
-  { label = "Open Door"
+closeDoor : Action
+closeDoor =
+  { label = "Close Door"
   , keyChar = 'a'
-  , logString = Just "You open the door."
+  , logString = Just "You close the door."
   , isAvailable = isAvailable
   , update = update
   }
@@ -25,7 +25,7 @@ isAvailable game =
   game.player.location
     |> neighbors
     |> filterMap (pairWithElement game.world)
-    |> filter (isClosedDoor << first)
+    |> filter (isOpenDoor << first)
     |> not << isEmpty
 
 
@@ -34,17 +34,17 @@ update game =
   game.player.location
     |> neighbors
     |> filterMap (pairWithElement game.world)
-    |> filter (isClosedDoor << first)
+    |> filter (isOpenDoor << first)
     |> map second
-    |> foldr setOpenDoor game
+    |> foldr setClosedDoor game
 
 
-setOpenDoor : Location -> Game -> Game
-setOpenDoor location game =
+setClosedDoor : Location -> Game -> Game
+setClosedDoor location game =
   let
     world = game.world
-    newMap = set location Models.Cell.OpenDoor world.map
+    newMap = set location Cell.ClosedDoor world.map
     newWorld = { world | map = newMap }
-    newLog = addLine "You open the door." game.log
+    newLog = addLine "You close the door." game.log
   in
     { game | world = newWorld, log = newLog }

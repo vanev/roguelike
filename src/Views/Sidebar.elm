@@ -1,9 +1,9 @@
 module Views.Sidebar exposing (panel)
 
 import Views.Panel exposing (..)
-import Models.Game exposing (Game)
-import Models.Action exposing (toSidebarString)
-import Actions.Index exposing (availableActions)
+import Game exposing (Game)
+import Action exposing (toSidebarString)
+import Action.Index exposing (availableActions)
 import Html exposing (text, li, ul)
 import List exposing (map, singleton)
 

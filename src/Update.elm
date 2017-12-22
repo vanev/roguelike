@@ -1,11 +1,11 @@
 module Update exposing (update)
 
-import Models.Game exposing (Game)
-import Models.Action exposing (Action)
+import Game exposing (Game)
+import Action exposing (Action)
 import Messages exposing (Msg)
 import Keyboard exposing (KeyCode)
 import Char exposing (fromCode)
-import Actions.Index exposing (findByKey)
+import Action.Index exposing (findByKey)
 
 
 update : Msg -> Game -> ( Game, Cmd Msg )

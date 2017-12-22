@@ -1,15 +1,15 @@
-module Actions.MoveNorth exposing (moveNorth)
+module Action.MoveWest exposing (moveWest)
 
-import Models.Game exposing (Game)
-import Models.Action exposing (Action)
-import Models.Character exposing (..)
+import Game exposing (Game)
+import Action exposing (Action)
+import Character exposing (..)
 import Location.Extra exposing (..)
 import Matrix exposing (..)
 
-moveNorth : Action
-moveNorth =
-  { label = "Move North"
-  , keyChar = 'i'
+moveWest : Action
+moveWest =
+  { label = "Move West"
+  , keyChar = 'j'
   , logString = Nothing
   , isAvailable = isAvailable
   , update = update
@@ -18,7 +18,7 @@ moveNorth =
 isAvailable : Game -> Bool
 isAvailable game =
   let
-    loc = north game.player.location
+    loc = west game.player.location
     cell = get loc game.world.map
   in
     case cell of
@@ -28,7 +28,7 @@ isAvailable game =
 update : Game -> Game
 update game =
   let
-    loc = north game.player.location
+    loc = west game.player.location
     player = move game.world loc game.player
   in
     { game | player = player }

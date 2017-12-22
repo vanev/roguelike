@@ -1,7 +1,7 @@
-module Models.Character exposing (..)
+module Character exposing (..)
 
-import Models.World exposing (World)
-import Models.Cell
+import World exposing (World)
+import Cell
 import Matrix exposing (Location)
 
 
@@ -24,9 +24,9 @@ move world location player =
     case cell of
       Just c ->
         case c of
-          Models.Cell.Floor ->
+          Cell.Floor ->
             { player | location = location }
-          Models.Cell.OpenDoor ->
+          Cell.OpenDoor ->
             { player | location = location }
           _ ->
             player

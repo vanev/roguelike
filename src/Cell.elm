@@ -1,4 +1,4 @@
-module Models.Cell exposing (..)
+module Cell exposing (..)
 
 
 type Cell = Wall

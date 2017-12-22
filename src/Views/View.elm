@@ -1,6 +1,6 @@
 module Views.View exposing (..)
 
-import Models.Game exposing (Game)
+import Game exposing (Game)
 import Views.Main exposing (panel)
 import Views.Panel exposing (render)
 import Messages exposing (Msg)

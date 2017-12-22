@@ -1,4 +1,4 @@
-module Models.Dimensions exposing (..)
+module Dimensions exposing (..)
 
 type alias Width =
   Int

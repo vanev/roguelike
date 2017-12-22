@@ -1,6 +1,6 @@
 module Subscriptions exposing (..)
 
-import Models.Game exposing (Game)
+import Game exposing (Game)
 import Messages exposing (Msg)
 import Keyboard
 

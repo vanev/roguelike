@@ -1,4 +1,4 @@
-module Models.Log exposing (..)
+module Log exposing (..)
 
 type alias Log =
   { lines : List String

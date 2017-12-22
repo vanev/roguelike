@@ -1,10 +1,10 @@
 module Views.World.World exposing (..)
 
 import Views.World.Layer exposing (Layer)
-import Models.Game exposing (Game)
-import Models.World
-import Models.Cell
-import Models.Dimensions exposing (Dimensions)
+import Game exposing (Game)
+import World
+import Cell
+import Dimensions exposing (Dimensions)
 import List exposing (foldr, head, tail, repeat)
 import Maybe exposing (withDefault)
 import Matrix
@@ -49,10 +49,10 @@ toMapLayer game =
 toCharacterLayer : Game -> Layer
 toCharacterLayer game =
   let
-    dimensions = Models.World.dimensions game.world
+    dimensions = World.dimensions game.world
   in
     emptyLayer dimensions
-      |> Matrix.set game.player.location (Just Models.Cell.Character)
+      |> Matrix.set game.player.location (Just Cell.Character)
 
 emptyLayer : Dimensions -> Layer
 emptyLayer (width, height) =

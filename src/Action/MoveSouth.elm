@@ -1,8 +1,8 @@
-module Actions.MoveSouth exposing (moveSouth)
+module Action.MoveSouth exposing (moveSouth)
 
-import Models.Game exposing (Game)
-import Models.Action exposing (Action)
-import Models.Character exposing (..)
+import Game exposing (Game)
+import Action exposing (Action)
+import Character exposing (..)
 import Location.Extra exposing (..)
 import Matrix exposing (..)
 

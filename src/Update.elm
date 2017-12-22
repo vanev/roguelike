@@ -4,6 +4,7 @@ import Game exposing (Game)
 import Action exposing (Action)
 import Messages exposing (Msg)
 import Keyboard exposing (KeyCode)
+import Time exposing (Time)
 import Char exposing (fromCode)
 import Action.Index exposing (findByKey)
 
@@ -16,6 +17,9 @@ update msg game =
 
     Messages.KeyMsg keyCode ->
       ( handleKeyMsg keyCode game, Cmd.none )
+
+    Messages.Tick delta ->
+      ( handleTick (delta / 1000) game, Cmd.none )
 
 
 handleKeyMsg : KeyCode -> Game -> Game
@@ -32,3 +36,7 @@ performAction game maybeAction =
 
     Nothing ->
       game
+
+handleTick : Time -> Game -> Game
+handleTick delta game =
+  game

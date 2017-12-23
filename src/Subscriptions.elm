@@ -1,11 +1,11 @@
 module Subscriptions exposing (..)
 
-import Game exposing (Game)
+import Model exposing (Model)
 import Messages exposing (Msg)
 import Keyboard
 import AnimationFrame
 
-subscriptions : Game -> Sub Msg
+subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.batch
     [ Keyboard.presses Messages.KeyMsg

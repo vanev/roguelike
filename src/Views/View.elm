@@ -1,6 +1,7 @@
 module Views.View exposing (..)
 
 import Game exposing (Game)
+import Model exposing (Model)
 import Views.Main exposing (panel)
 import Views.Panel exposing (render)
 import Messages exposing (Msg)
@@ -11,7 +12,7 @@ display game =
   panel game
     |> render
 
-view : Game -> Html Msg
-view game =
+view : Model -> Html Msg
+view model =
   div []
-      [ display game ]
+      [ display model.game ]

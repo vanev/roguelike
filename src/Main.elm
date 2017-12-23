@@ -1,26 +1,17 @@
 module Main exposing (..)
 
 import Html exposing (program)
-import Game exposing (..)
+import Model exposing (Model, initial)
 import Messages exposing (Msg)
 import Update exposing (update)
 import Views.View exposing (view)
 import Subscriptions exposing (subscriptions)
 
--- Init
 
-init : ( Game, Cmd Msg )
-init =
-  ( Game.initial
-  , Cmd.none
-  )
-
--- Main
-
-main : Program Never Game Msg
+main : Program Never Model Msg
 main =
   program
-    { init = init
+    { init = ( initial, Cmd.none )
     , view = view
     , update = update
     , subscriptions = subscriptions

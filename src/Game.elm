@@ -1,12 +1,12 @@
 module Game exposing (..)
 
-import Character exposing (Character)
+import Creature exposing (Creature)
 import World exposing (World)
 import Log exposing (Log)
 
 
 type alias Game =
-  { player : Character
+  { player : Creature
   , world : World
   , log : Log
   }
@@ -14,7 +14,7 @@ type alias Game =
 
 initial : Game
 initial =
-  { player = Character.initial
+  { player = Creature.initial
   , world = World.initial
   , log = Log.initial
   }

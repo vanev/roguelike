@@ -2,7 +2,7 @@ module Action.MoveNorth exposing (moveNorth)
 
 import Game exposing (Game)
 import Action exposing (Action)
-import Character exposing (..)
+import Creature exposing (..)
 import Location.Extra exposing (..)
 import Matrix exposing (..)
 

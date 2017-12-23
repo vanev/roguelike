@@ -1,23 +1,23 @@
-module Character exposing (..)
+module Creature exposing (..)
 
 import World exposing (World)
 import Cell
 import Matrix exposing (Location)
 
 
-type alias Character =
+type alias Creature =
   { location : Location
   }
 
 
-initial : Character
+initial : Creature
 initial =
   { location = (1,1)
   }
 
 
-move : World -> Location -> Character -> Character
-move world location player =
+move : World -> Location -> Creature -> Creature
+move world location creature =
   let
     cell = Matrix.get location world.map
   in
@@ -25,10 +25,10 @@ move world location player =
       Just c ->
         case c of
           Cell.Floor ->
-            { player | location = location }
+            { creature | location = location }
           Cell.OpenDoor ->
-            { player | location = location }
+            { creature | location = location }
           _ ->
-            player
+            creature
       Nothing ->
-        player
+        creature

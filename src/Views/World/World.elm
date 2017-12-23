@@ -37,7 +37,7 @@ toString world =
 
 toWorld : Game -> World
 toWorld game =
-  [ toCharacterLayer game
+  [ toCreatureLayer game
   , toMapLayer game
   ]
 
@@ -46,13 +46,13 @@ toMapLayer game =
   game.world.map
     |> Matrix.map Just
 
-toCharacterLayer : Game -> Layer
-toCharacterLayer game =
+toCreatureLayer : Game -> Layer
+toCreatureLayer game =
   let
     dimensions = World.dimensions game.world
   in
     emptyLayer dimensions
-      |> Matrix.set game.player.location (Just Cell.Character)
+      |> Matrix.set game.player.location (Just Cell.Creature)
 
 emptyLayer : Dimensions -> Layer
 emptyLayer (width, height) =

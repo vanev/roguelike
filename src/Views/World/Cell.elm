@@ -25,7 +25,7 @@ toString cell =
   case (toCell cell) of
     Cell.Wall -> "#"
     Cell.Floor -> "."
-    Cell.Character -> "@"
+    Cell.Creature -> "@"
     Cell.ClosedDoor -> "D"
     Cell.OpenDoor -> "d"
     Cell.Empty -> " "

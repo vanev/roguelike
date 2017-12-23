@@ -41,13 +41,11 @@ initial =
 
 fromString : String -> World
 fromString string =
-  let
-    map = String.split lineBreak string
-            |> List.map (String.split blank)
-            |> Matrix.fromList
-            |> Matrix.map Cell.fromString
-  in
-    { map = map }
+  String.split lineBreak string
+    |> List.map (String.split blank)
+    |> Matrix.fromList
+    |> Matrix.map Cell.fromString
+    |> World
 
 dimensions : World -> Dimensions
 dimensions world =

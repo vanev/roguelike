@@ -1,12 +1,18 @@
 module Model exposing (..)
 
-import Game exposing (Game)
+import Game.World as World exposing (World)
+import Log exposing (Log)
+import Keyboard.Extra exposing (Key)
 
 type alias Model =
-  { game : Game
+  { world : World
+  , log : Log
+  , pressedKeys : List Key
   }
 
 initial : Model
 initial =
-  { game = Game.initial
+  { world = World.initial
+  , log = Log.initial
+  , pressedKeys = []
   }

@@ -1,4 +1,4 @@
-module Views.Panel exposing (..)
+module View.Panel exposing (Panel, Size, Position, Content(..), render)
 
 import Messages exposing (Msg)
 import Html exposing (Html, div, text)

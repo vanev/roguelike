@@ -1,17 +1,17 @@
 module Action exposing (..)
 
-import Game exposing (Game)
-import String exposing (fromChar)
+import Keyboard.Extra exposing (Key(..))
+import Physics.Direction exposing (Direction)
 
+type Action
+  = Move Direction
+  | Idle
 
-type alias Action =
-  { label : String
-  , keyChar : Char
-  , logString : Maybe String
-  , isAvailable : Game -> Bool
-  , update : Game -> Game
-  }
-
-toSidebarString : Action -> String
-toSidebarString action =
-  (fromChar action.keyChar) ++ "    " ++ action.label
+fromKey : Key -> Action
+fromKey key =
+  case key of
+    ArrowUp -> Move 0
+    ArrowRight -> Move 90
+    ArrowDown -> Move 180
+    ArrowLeft -> Move 270
+    _ -> Idle

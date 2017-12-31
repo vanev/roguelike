@@ -1,9 +1,9 @@
 module Messages exposing (..)
 
-import Keyboard
+import Keyboard.Extra as Keyboard
 import Time exposing (Time)
 
 type Msg
   = NoOp
-  | KeyMsg Keyboard.KeyCode
+  | KeyMsg Keyboard.Msg
   | Tick Time

@@ -4,9 +4,8 @@ import Html exposing (program)
 import Model exposing (Model, initial)
 import Messages exposing (Msg)
 import Update exposing (update)
-import Views.View exposing (view)
+import View exposing (view)
 import Subscriptions exposing (subscriptions)
-
 
 main : Program Never Model Msg
 main =

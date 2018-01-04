@@ -1,0 +1,11 @@
+@import "palette";
+
+.Item {
+  $item--color: $colors--secondary-light;
+
+  position: absolute;
+  z-index: 3;
+  width: 10px;
+  height: 10px;
+  background-color: $item--color;
+}

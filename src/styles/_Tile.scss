@@ -1,0 +1,18 @@
+@import "palette";
+
+.Tile {
+  $tile--colors--dirt: $colors--alternate-darkest;
+  $tile--colors--grass: $colors--grass;
+
+  position: absolute;
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+
+  &.Dirt {
+    background-color: $tile--colors--dirt;
+  }
+  &.Grass {
+    background-color: $tile--colors--grass;
+  }
+}

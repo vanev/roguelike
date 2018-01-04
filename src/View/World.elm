@@ -1,33 +1,30 @@
-module View.World exposing (World, content)
+module View.World exposing (content)
 
-import Html exposing (pre, text)
+import Html exposing (Html, div)
+import Html.Attributes exposing (class)
+import Messages exposing (Msg)
 import Matrix exposing (Matrix)
-import Game.World
+import Game.World exposing (World, Tile)
 import View.Panel exposing (Content(Leaf))
-import View.Cell exposing (Cell, toCell)
-import View.Symbols exposing (blank, lineBreak)
+import View.Tile
+import View.Object
+import View.Item
+import View.Creature
+import Dict
 
-type alias World =
-  Matrix Cell
+render : World -> Html Msg
+render world =
+  let
+    heightmap = world.heightmap
+      |> Matrix.mapWithLocation View.Tile.render
+      |> Matrix.toList
+      |> List.concatMap identity
+    objects = world.objects |> Dict.values |> List.map View.Object.render
+    items = world.items |> Dict.values |> List.map View.Item.render
+    creatures = world.creatures |> Dict.values |> List.map View.Creature.render
+    children = heightmap ++ objects ++ items ++ creatures
+  in
+    div [ class "World" ] children
 
-toWorld : Game.World.World -> World
-toWorld gameWorld =
-  gameWorld
-    |> .heightmap
-    |> Matrix.mapWithLocation (toCell gameWorld)
-
-toString : World -> String
-toString world =
-  Matrix.map View.Cell.toString world
-    |> Matrix.toList
-    |> List.map (String.join blank)
-    |> String.join lineBreak
-
-content : Game.World.World -> Content
-content gameWorld =
-  toWorld gameWorld
-    |> toString
-    |> text
-    |> List.singleton
-    |> pre []
-    |> Leaf
+content : World -> Content
+content = render >> Leaf

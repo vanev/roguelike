@@ -38,8 +38,8 @@ type alias Creature =
 speed : Creature -> Speed
 speed creature =
   case creature.race of
-    Human -> (10 * mile) / hour
-    Goblin -> (10 * mile) / hour
+    Human -> (15 * mile) / hour
+    Goblin -> (15 * mile) / hour
 
 location : Creature -> Location
 location = .position >> Location.Extra.fromPosition

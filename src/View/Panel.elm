@@ -3,7 +3,7 @@ module View.Panel exposing (Panel, Size, Position, Content(..), render)
 import Messages exposing (Msg)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (style)
-import List exposing (repeat, map, map2, indexedMap, foldr)
+import List exposing (map)
 
 pixelsPerUnit : Int
 pixelsPerUnit =
@@ -19,8 +19,9 @@ type alias Size =
   , height : Int
   }
 
-type Content = Leaf (Html Msg)
-             | Node (List Panel)
+type Content
+  = Leaf (Html Msg)
+  | Node (List Panel)
 
 type alias Panel =
   { size : Size

@@ -1,9 +1,12 @@
 module View.Symbols exposing (..)
 
+
 blank : String
-blank = ""
+blank =
+    ""
+
 
 lineBreak : String
 lineBreak =
-  """
+    """
 """

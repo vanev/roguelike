@@ -1,60 +1,75 @@
 module Physics.Distance exposing (..)
 
+
 type alias Distance =
-  Float
+    Float
+
 
 millimeter : Distance
 millimeter =
-  1
+    1
+
 
 centimeter : Distance
 centimeter =
-  10 * millimeter
+    10 * millimeter
+
 
 meter : Distance
 meter =
-  100 * centimeter
+    100 * centimeter
+
 
 inch : Distance
 inch =
-  2.54 * centimeter
+    2.54 * centimeter
+
 
 foot : Distance
 foot =
-  12 * inch
+    12 * inch
+
 
 yard : Distance
 yard =
-  3 * foot
+    3 * foot
+
 
 mile : Distance
 mile =
-  5280 * foot
+    5280 * foot
+
 
 inMillimeters : Distance -> Distance
 inMillimeters d =
-  d / millimeter
+    d / millimeter
+
 
 inCentimeters : Distance -> Distance
 inCentimeters d =
-  d / centimeter
+    d / centimeter
+
 
 inMeters : Distance -> Distance
 inMeters d =
-  d / meter
+    d / meter
+
 
 inInch : Distance -> Distance
 inInch d =
-  d / inch
+    d / inch
+
 
 inFeet : Distance -> Distance
 inFeet d =
-  d / foot
+    d / foot
+
 
 inYards : Distance -> Distance
 inYards d =
-  d / yard
+    d / yard
+
 
 inMiles : Distance -> Distance
 inMiles d =
-  d / mile
+    d / mile

@@ -4,19 +4,25 @@ import Matrix exposing (Location)
 import Location.Extra
 import Physics.Position exposing (Position)
 
+
 type Material
-  = Stone
-  | Wood
+    = Stone
+    | Wood
+
 
 type Kind
-  = Door Material
-  | Wall Material
+    = Door Material
+    | Wall Material
+
 
 type alias Object =
-  { kind : Kind
-  , position : Position
-  -- , size : Size
-  }
+    { kind : Kind
+    , position : Position
+
+    -- , size : Size
+    }
+
 
 location : Object -> Location
-location = .position >> Location.Extra.fromPosition
+location =
+    .position >> Location.Extra.fromPosition

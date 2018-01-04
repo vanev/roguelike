@@ -12,19 +12,31 @@ import View.Item
 import View.Creature
 import Dict
 
+
 render : World -> Html Msg
 render world =
-  let
-    heightmap = world.heightmap
-      |> Matrix.mapWithLocation View.Tile.render
-      |> Matrix.toList
-      |> List.concatMap identity
-    objects = world.objects |> Dict.values |> List.map View.Object.render
-    items = world.items |> Dict.values |> List.map View.Item.render
-    creatures = world.creatures |> Dict.values |> List.map View.Creature.render
-    children = heightmap ++ objects ++ items ++ creatures
-  in
-    div [ class "World" ] children
+    let
+        heightmap =
+            world.heightmap
+                |> Matrix.mapWithLocation View.Tile.render
+                |> Matrix.toList
+                |> List.concatMap identity
+
+        objects =
+            world.objects |> Dict.values |> List.map View.Object.render
+
+        items =
+            world.items |> Dict.values |> List.map View.Item.render
+
+        creatures =
+            world.creatures |> Dict.values |> List.map View.Creature.render
+
+        children =
+            heightmap ++ objects ++ items ++ creatures
+    in
+        div [ class "World" ] children
+
 
 content : World -> Content
-content = render >> Leaf
+content =
+    render >> Leaf

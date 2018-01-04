@@ -6,18 +6,20 @@ import Physics.Distance exposing (inFeet)
 import Messages exposing (Msg)
 import Game.Creature exposing (Creature)
 
+
 render : Creature -> Html Msg
 render creature =
-  let
-    { x, y } = creature.position
-  in
-    div
-      [ classList
-        [ ("Creature", True)
-        ]
-      , style
-        [ ("top", (toString (inFeet y)) ++ "px")
-        , ("left", (toString (inFeet x)) ++ "px")
-        ]
-      ]
-      []
+    let
+        { x, y } =
+            creature.position
+    in
+        div
+            [ classList
+                [ ( "Creature", True )
+                ]
+            , style
+                [ ( "top", (toString (inFeet y)) ++ "px" )
+                , ( "left", (toString (inFeet x)) ++ "px" )
+                ]
+            ]
+            []

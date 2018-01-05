@@ -16,6 +16,7 @@ render creature =
         div
             [ classList
                 [ ( "Creature", True )
+                , ( (toString creature.race), True )
                 ]
             , style
                 [ ( "top", (toString (inFeet y)) ++ "px" )

@@ -52,12 +52,21 @@ player =
     }
 
 
+goblin : Creature
+goblin =
+    { position = Position (50 * foot) (5 * foot)
+    , race = Game.Creature.Goblin
+    , items = emptyItems
+    }
+
+
 initial : World
 initial =
     { heightmap = Matrix.square 50 (always Dirt)
     , creatures =
         Dict.fromList
             [ ( "player", player )
+            , ( "goblin", goblin )
             ]
     , items = Dict.fromList []
     , objects = Dict.fromList []

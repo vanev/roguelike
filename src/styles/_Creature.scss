@@ -1,11 +1,19 @@
 @import "palette";
 
 .Creature {
-  $creature--color: $colors--skin;
+  $creature--colors--human: $colors--skin;
+  $creature--colors--goblin: $colors--primary-lightest;
 
   position: absolute;
   z-index: 4;
   width: 10px;
   height: 10px;
-  background-color: $creature--color;
+
+  &.Human {
+    background-color: $creature--colors--human;
+  }
+
+  &.Goblin {
+    background-color: $creature--colors--goblin;
+  }
 }

@@ -49,6 +49,7 @@ player =
     { position = Position (5 * foot) (5 * foot)
     , race = Game.Creature.Human
     , items = emptyItems
+    , damage = 0
     }
 
 
@@ -57,6 +58,7 @@ goblin =
     { position = Position (50 * foot) (5 * foot)
     , race = Game.Creature.Goblin
     , items = emptyItems
+    , damage = 0
     }
 
 

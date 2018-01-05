@@ -36,6 +36,7 @@ type alias Creature =
     { position : Position
     , race : Race
     , items : Inventory
+    , damage : Float
     }
 
 
@@ -47,6 +48,20 @@ speed creature =
 
         Goblin ->
             (15 * mile) / hour
+
+
+hitPoints : Creature -> Float
+hitPoints creature =
+    let
+        baseHitPoints =
+            case creature.race of
+                Human ->
+                    15
+
+                Goblin ->
+                    10
+    in
+        baseHitPoints - creature.damage
 
 
 location : Creature -> Location

@@ -50,6 +50,7 @@ player =
     , race = Game.Creature.Human
     , items = emptyItems
     , damage = 0
+    , actions = []
     }
 
 
@@ -59,6 +60,7 @@ goblin =
     , race = Game.Creature.Goblin
     , items = emptyItems
     , damage = 0
+    , actions = []
     }
 
 

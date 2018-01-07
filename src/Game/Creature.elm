@@ -7,6 +7,7 @@ import Time exposing (hour)
 import Physics.Position exposing (Position)
 import Physics.Distance exposing (mile)
 import Physics.Speed exposing (Speed)
+import Action exposing (Action)
 import Game.Item exposing (Item)
 
 
@@ -37,6 +38,7 @@ type alias Creature =
     , race : Race
     , items : Inventory
     , damage : Float
+    , actions : List Action
     }
 
 

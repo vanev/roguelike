@@ -1,54 +1,30 @@
-module Location.Extra exposing (..)
+module Location.Extra exposing (fromPosition, toPosition, equals)
 
 import Matrix exposing (Location)
 import Physics.Position exposing (Position)
-import Physics.Distance exposing (inFeet)
+import Physics.Distance exposing (inFeet, foot)
 
 
-convert : Float -> Int
-convert coord =
-    coord
-        |> inFeet
-        |> \c ->
-            c
-                / 5
-                |> floor
+posCoordToLocCoord : Float -> Int
+posCoordToLocCoord =
+    inFeet >> (/) 5 >> floor
 
 
 fromPosition : Position -> Location
 fromPosition { x, y } =
-    ( convert y, convert x )
+    ( posCoordToLocCoord y, posCoordToLocCoord x )
+
+
+locCoordToPosCoord : Int -> Float
+locCoordToPosCoord =
+    toFloat >> (*) 10 >> (*) foot
+
+
+toPosition : Location -> Position
+toPosition ( row, col ) =
+    Position (locCoordToPosCoord col) (locCoordToPosCoord row)
 
 
 equals : Location -> Location -> Bool
 equals ( arow, acol ) ( brow, bcol ) =
     (arow == brow) && (acol == bcol)
-
-
-north : Location -> Location
-north ( row, col ) =
-    ( row - 1, col )
-
-
-south : Location -> Location
-south ( row, col ) =
-    ( row + 1, col )
-
-
-east : Location -> Location
-east ( row, col ) =
-    ( row, col + 1 )
-
-
-west : Location -> Location
-west ( row, col ) =
-    ( row, col - 1 )
-
-
-neighbors : Location -> List Location
-neighbors location =
-    [ north location
-    , east location
-    , south location
-    , west location
-    ]

@@ -13,32 +13,18 @@ type alias Velocity =
 
 
 position : Time -> Velocity -> Position
-position time velocity =
+position time { speed, direction } =
     let
-        speed =
-            velocity.speed
-
-        direction =
-            velocity.direction
-
         distance =
             speed * time
+
+        y =
+            (sin direction) * distance
+
+        x =
+            (cos direction) * distance
     in
-        case direction of
-            0 ->
-                Position 0 -distance
-
-            90 ->
-                Position distance 0
-
-            180 ->
-                Position 0 distance
-
-            270 ->
-                Position -distance 0
-
-            _ ->
-                Position 0 0
+        Position x y
 
 
 transform : Position -> Time -> Velocity -> Position

@@ -50,7 +50,7 @@ player =
     , race = Game.Creature.Human
     , items = emptyItems
     , damage = 0
-    , actions = []
+    , action = Idle
     }
 
 
@@ -60,7 +60,7 @@ goblin =
     , race = Game.Creature.Goblin
     , items = emptyItems
     , damage = 0
-    , actions = []
+    , action = Idle
     }
 
 
@@ -98,36 +98,33 @@ objectAtLocation location world =
         |> List.head
 
 
-applyPlayerAction : Time -> Action -> World -> World
-applyPlayerAction time action world =
-    let
-        maybePlayer =
-            Dict.get "player" world.creatures
-    in
-        case maybePlayer of
-            Just player ->
-                case action of
-                    Move direction ->
-                        let
-                            velocity =
-                                Velocity (Game.Creature.speed player) direction
+updateCreature : Time -> World -> String -> Creature -> Creature
+updateCreature time world string creature =
+    case creature.action of
+        GoTo { x, y } ->
+            let
+                direction =
+                    atan2 (y - creature.position.y) (x - creature.position.x)
 
-                            newPlayer =
-                                { player
-                                    | position = Physics.Velocity.transform player.position time velocity
-                                }
-                        in
-                            { world
-                                | creatures = Dict.insert "player" newPlayer world.creatures
-                            }
+                velocity =
+                    Velocity (Game.Creature.speed creature) direction
 
-                    Idle ->
-                        world
+                position =
+                    Physics.Velocity.transform creature.position time velocity
+            in
+                { creature
+                    | position = position
+                    , action =
+                        if position.x == x && position.y == y then
+                            Idle
+                        else
+                            creature.action
+                }
 
-            Nothing ->
-                world
+        Idle ->
+            creature
 
 
-tick : Time -> List Action -> World -> World
-tick time actions world =
-    List.foldr (applyPlayerAction time) world actions
+tick : Time -> World -> World
+tick time world =
+    { world | creatures = Dict.map (updateCreature time world) world.creatures }

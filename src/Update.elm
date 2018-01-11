@@ -1,11 +1,14 @@
 module Update exposing (update)
 
+import Dict
 import Time exposing (Time)
 import Keyboard.Extra as Keyboard
 import Messages exposing (Msg(..))
 import Model exposing (Model)
 import Action exposing (Action)
-import Game.World as World
+import Matrix exposing (Location)
+import Location.Extra exposing (toPosition)
+import Game.World as World exposing (Tile)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -16,6 +19,9 @@ update msg model =
 
         KeyMsg keyMsg ->
             ( handleKeyMsg keyMsg model, Cmd.none )
+
+        TileClick location tile ->
+            ( handleTileClick location tile model, Cmd.none )
 
         Tick delta ->
             ( handleTick delta model, Cmd.none )
@@ -28,12 +34,25 @@ handleKeyMsg keyMsg model =
     }
 
 
+handleTileClick : Location -> Tile -> Model -> Model
+handleTileClick location tile model =
+    let
+        world =
+            model.world
+
+        updater =
+            (\creature -> { creature | action = Action.GoTo (toPosition location) })
+
+        newWorld =
+            { world
+                | creatures = Dict.update "player" (Maybe.map updater) world.creatures
+            }
+    in
+        { model | world = newWorld }
+
+
 handleTick : Time -> Model -> Model
 handleTick delta model =
-    let
-        actions =
-            List.map Action.fromKey model.pressedKeys
-    in
-        { model
-            | world = World.tick delta actions model.world
-        }
+    { model
+        | world = World.tick delta model.world
+    }

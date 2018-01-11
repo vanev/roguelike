@@ -38,7 +38,7 @@ type alias Creature =
     , race : Race
     , items : Inventory
     , damage : Float
-    , actions : List Action
+    , action : Action
     }
 
 

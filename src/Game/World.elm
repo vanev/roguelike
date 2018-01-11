@@ -5,7 +5,7 @@ import Time exposing (Time)
 import Matrix exposing (Matrix, Location)
 import Location.Extra
 import Physics.Position exposing (Position)
-import Physics.Distance exposing (foot)
+import Physics.Distance exposing (foot, inFeet)
 import Physics.Velocity exposing (Velocity)
 import Action exposing (Action(..))
 import Game.Creature exposing (Creature, Inventory)
@@ -111,11 +111,23 @@ updateCreature time world string creature =
 
                 position =
                     Physics.Velocity.transform creature.position time velocity
+
+                roundPosition =
+                    inFeet >> floor >> toFloat
+
+                roundedPosition =
+                    Physics.Position.map roundPosition position
+
+                roundedTarget =
+                    Physics.Position.map roundPosition (Position x y)
+
+                arrived =
+                    Physics.Position.equals roundedPosition roundedTarget
             in
                 { creature
                     | position = position
                     , action =
-                        if position.x == x && position.y == y then
+                        if arrived then
                             Idle
                         else
                             creature.action

@@ -1,4 +1,4 @@
-module Physics.Velocity exposing (..)
+module Physics.Velocity exposing (Velocity, transform)
 
 import Time exposing (Time)
 import Physics.Speed exposing (Speed)
@@ -12,8 +12,8 @@ type alias Velocity =
     }
 
 
-position : Time -> Velocity -> Position
-position time { speed, direction } =
+delta : Time -> Velocity -> Position
+delta time { speed, direction } =
     let
         distance =
             speed * time
@@ -29,5 +29,5 @@ position time { speed, direction } =
 
 transform : Position -> Time -> Velocity -> Position
 transform source time velocity =
-    position time velocity
+    delta time velocity
         |> Physics.Position.add source

@@ -1,5 +1,7 @@
 module Physics.Position exposing (..)
 
+import Physics.Distance exposing (Distance)
+
 
 type alias Position =
     { x : Float
@@ -10,6 +12,18 @@ type alias Position =
 add : Position -> Position -> Position
 add a b =
     Position (a.x + b.x) (a.y + b.y)
+
+
+difference : Position -> Position -> Distance
+difference a b =
+    let
+        x =
+            a.x - b.x
+
+        y =
+            a.y - b.y
+    in
+        sqrt (x ^ 2 + y ^ 2)
 
 
 map : (Float -> Float) -> Position -> Position

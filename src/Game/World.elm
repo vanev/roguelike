@@ -112,17 +112,11 @@ updateCreature time world string creature =
                 position =
                     Physics.Velocity.transform creature.position time velocity
 
-                roundPosition =
-                    inFeet >> floor >> toFloat
-
-                roundedPosition =
-                    Physics.Position.map roundPosition position
-
-                roundedTarget =
-                    Physics.Position.map roundPosition (Position x y)
+                difference =
+                    Physics.Position.difference position (Position x y)
 
                 arrived =
-                    Physics.Position.equals roundedPosition roundedTarget
+                    difference < 1 * foot
             in
                 { creature
                     | position = position

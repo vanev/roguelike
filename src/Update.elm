@@ -8,6 +8,7 @@ import Model exposing (Model)
 import Action exposing (Action)
 import Matrix exposing (Location)
 import Game.World as World exposing (Tile)
+import Game.World.Tick
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -54,5 +55,5 @@ handleTileClick location tile model =
 handleTick : Time -> Model -> Model
 handleTick delta model =
     { model
-        | world = World.tick delta model.world
+        | world = Game.World.Tick.tick delta model.world
     }

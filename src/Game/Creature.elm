@@ -42,15 +42,12 @@ type alias Creature =
 
 
 cooldown : Creature -> Float
-cooldown { race, action } =
-    case action of
+cooldown creature =
+    case creature.action of
         GoTo _ ->
-            case race of
-                Human ->
-                    Physics.Speed.time (5 * foot) ((15 * mile) / hour)
-
-                Goblin ->
-                    Physics.Speed.time (5 * foot) ((17.5 * mile) / hour)
+            creature
+                |> speed
+                |> Physics.Speed.time (5 * foot)
 
         Idle ->
             0
@@ -63,7 +60,7 @@ speed creature =
             (15 * mile) / hour
 
         Goblin ->
-            (15 * mile) / hour
+            (10 * mile) / hour
 
 
 hitPoints : Creature -> Float

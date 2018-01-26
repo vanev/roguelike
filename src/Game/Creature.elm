@@ -3,9 +3,9 @@ module Game.Creature exposing (..)
 import Dict exposing (Dict)
 import Matrix exposing (Location)
 import Time exposing (hour)
-import Physics.Distance exposing (mile)
+import Physics.Distance exposing (mile, foot)
 import Physics.Speed exposing (Speed)
-import Action exposing (Action)
+import Action exposing (Action(..))
 import Game.Item exposing (Item)
 
 
@@ -39,6 +39,21 @@ type alias Creature =
     , action : Action
     , cooldown : Float
     }
+
+
+cooldown : Creature -> Float
+cooldown { race, action } =
+    case action of
+        GoTo _ ->
+            case race of
+                Human ->
+                    Physics.Speed.time (5 * foot) ((15 * mile) / hour)
+
+                Goblin ->
+                    Physics.Speed.time (5 * foot) ((17.5 * mile) / hour)
+
+        Idle ->
+            0
 
 
 speed : Creature -> Speed

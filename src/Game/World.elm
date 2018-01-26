@@ -100,21 +100,33 @@ objectAtLocation location world =
 handleGoTo : Location -> Time -> World -> String -> Creature -> Creature
 handleGoTo target delta world key creature =
     let
+        targetRow =
+            Matrix.row target
+
+        targetCol =
+            Matrix.col target
+
+        creatureRow =
+            Matrix.row creature.location
+
+        creatureCol =
+            Matrix.col creature.location
+
         row =
-            if (Matrix.row target) > (Matrix.row creature.location) then
-                (Matrix.row creature.location) + 1
-            else if (Matrix.row target) < (Matrix.row creature.location) then
-                (Matrix.row creature.location) - 1
+            if targetRow > creatureRow then
+                creatureRow + 1
+            else if targetRow < creatureRow then
+                creatureRow - 1
             else
-                (Matrix.row creature.location)
+                creatureRow
 
         col =
-            if (Matrix.col target) > (Matrix.col creature.location) then
-                (Matrix.col creature.location) + 1
-            else if (Matrix.col target) < (Matrix.col creature.location) then
-                (Matrix.col creature.location) - 1
+            if targetCol > creatureCol then
+                creatureCol + 1
+            else if targetCol < creatureCol then
+                creatureCol - 1
             else
-                (Matrix.col creature.location)
+                creatureCol
 
         location =
             ( row, col )
@@ -129,7 +141,7 @@ handleGoTo target delta world key creature =
                 creature.action
 
         cooldown =
-            1 * Time.second
+            Game.Creature.cooldown creature
     in
         { creature
             | location = location

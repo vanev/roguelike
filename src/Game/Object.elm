@@ -1,8 +1,6 @@
 module Game.Object exposing (..)
 
 import Matrix exposing (Location)
-import Location.Extra
-import Physics.Position exposing (Position)
 
 
 type Material
@@ -17,12 +15,5 @@ type Kind
 
 type alias Object =
     { kind : Kind
-    , position : Position
-
-    -- , size : Size
+    , location : Location
     }
-
-
-location : Object -> Location
-location =
-    .position >> Location.Extra.fromPosition

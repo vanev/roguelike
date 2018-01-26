@@ -7,7 +7,6 @@ import Messages exposing (Msg(..))
 import Model exposing (Model)
 import Action exposing (Action)
 import Matrix exposing (Location)
-import Location.Extra exposing (toPosition)
 import Game.World as World exposing (Tile)
 
 
@@ -41,7 +40,7 @@ handleTileClick location tile model =
             model.world
 
         updater =
-            (\creature -> { creature | action = Action.GoTo (toPosition location) })
+            (\creature -> { creature | action = Action.GoTo location })
 
         newWorld =
             { world

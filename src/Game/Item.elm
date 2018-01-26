@@ -1,8 +1,6 @@
 module Game.Item exposing (..)
 
 import Matrix exposing (Location)
-import Location.Extra
-import Physics.Position exposing (Position)
 
 
 type Slot
@@ -23,12 +21,7 @@ type Kind
 
 
 type alias Item =
-    { position : Position
+    { location : Location
     , kind : Kind
     , name : String
     }
-
-
-location : Item -> Location
-location =
-    .position >> Location.Extra.fromPosition

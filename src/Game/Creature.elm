@@ -2,9 +2,7 @@ module Game.Creature exposing (..)
 
 import Dict exposing (Dict)
 import Matrix exposing (Location)
-import Location.Extra
 import Time exposing (hour)
-import Physics.Position exposing (Position)
 import Physics.Distance exposing (mile)
 import Physics.Speed exposing (Speed)
 import Action exposing (Action)
@@ -34,11 +32,12 @@ type alias Inventory =
 
 
 type alias Creature =
-    { position : Position
+    { location : Location
     , race : Race
     , items : Inventory
     , damage : Float
     , action : Action
+    , cooldown : Float
     }
 
 
@@ -64,8 +63,3 @@ hitPoints creature =
                     10
     in
         baseHitPoints - creature.damage
-
-
-location : Creature -> Location
-location =
-    .position >> Location.Extra.fromPosition

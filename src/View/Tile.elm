@@ -8,6 +8,11 @@ import Matrix exposing (Location)
 import Game.World exposing (World, Tile)
 
 
+pixels : Int
+pixels =
+    10
+
+
 render : Location -> Tile -> Html Msg
 render ( row, col ) tile =
     div
@@ -16,8 +21,8 @@ render ( row, col ) tile =
             , ( toString tile, True )
             ]
         , style
-            [ ( "top", (toString (row * 10)) ++ "px" )
-            , ( "left", (toString (col * 10)) ++ "px" )
+            [ ( "top", (toString (row * pixels)) ++ "px" )
+            , ( "left", (toString (col * pixels)) ++ "px" )
             ]
         , onClick (Messages.TileClick ( row, col ) tile)
         ]

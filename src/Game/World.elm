@@ -4,9 +4,6 @@ import Dict exposing (Dict)
 import Time exposing (Time)
 import Matrix exposing (Matrix, Location)
 import Location.Extra
-import Physics.Position exposing (Position)
-import Physics.Distance exposing (foot, inFeet)
-import Physics.Velocity exposing (Velocity)
 import Action exposing (Action(..))
 import Game.Creature exposing (Creature, Inventory)
 import Game.Item exposing (Item)
@@ -46,21 +43,23 @@ emptyItems =
 
 player : Creature
 player =
-    { position = Position (5 * foot) (5 * foot)
+    { location = ( 5, 5 )
     , race = Game.Creature.Human
     , items = emptyItems
     , damage = 0
     , action = Idle
+    , cooldown = 0
     }
 
 
 goblin : Creature
 goblin =
-    { position = Position (50 * foot) (5 * foot)
+    { location = ( 5, 10 )
     , race = Game.Creature.Goblin
     , items = emptyItems
     , damage = 0
     , action = Idle
+    , cooldown = 0
     }
 
 
@@ -80,57 +79,78 @@ initial =
 creatureAtLocation : Location -> World -> Maybe Creature
 creatureAtLocation location world =
     Dict.values world.creatures
-        |> List.filter ((Location.Extra.equals location) << Game.Creature.location)
+        |> List.filter (.location >> Location.Extra.equals location)
         |> List.head
 
 
 itemAtLocation : Location -> World -> Maybe Item
 itemAtLocation location world =
     Dict.values world.items
-        |> List.filter ((Location.Extra.equals location) << Game.Item.location)
+        |> List.filter (.location >> Location.Extra.equals location)
         |> List.head
 
 
 objectAtLocation : Location -> World -> Maybe Object
 objectAtLocation location world =
     Dict.values world.objects
-        |> List.filter ((Location.Extra.equals location) << Game.Object.location)
+        |> List.filter (.location >> Location.Extra.equals location)
         |> List.head
 
 
+handleGoTo : Location -> Time -> World -> String -> Creature -> Creature
+handleGoTo target delta world key creature =
+    let
+        row =
+            if (Matrix.row target) > (Matrix.row creature.location) then
+                (Matrix.row creature.location) + 1
+            else if (Matrix.row target) < (Matrix.row creature.location) then
+                (Matrix.row creature.location) - 1
+            else
+                (Matrix.row creature.location)
+
+        col =
+            if (Matrix.col target) > (Matrix.col creature.location) then
+                (Matrix.col creature.location) + 1
+            else if (Matrix.col target) < (Matrix.col creature.location) then
+                (Matrix.col creature.location) - 1
+            else
+                (Matrix.col creature.location)
+
+        location =
+            ( row, col )
+
+        arrived =
+            Location.Extra.equals location target
+
+        action =
+            if arrived then
+                Idle
+            else
+                creature.action
+
+        cooldown =
+            1 * Time.second
+    in
+        { creature
+            | location = location
+            , action = action
+            , cooldown = cooldown
+        }
+
+
 updateCreature : Time -> World -> String -> Creature -> Creature
-updateCreature time world string creature =
-    case creature.action of
-        GoTo { x, y } ->
-            let
-                direction =
-                    atan2 (y - creature.position.y) (x - creature.position.x)
+updateCreature delta world key creature =
+    if creature.cooldown >= 0 then
+        { creature | cooldown = creature.cooldown - delta }
+    else
+        case creature.action of
+            GoTo target ->
+                handleGoTo target delta world key creature
 
-                velocity =
-                    Velocity (Game.Creature.speed creature) direction
-
-                position =
-                    Physics.Velocity.transform creature.position time velocity
-
-                difference =
-                    Physics.Position.difference position (Position x y)
-
-                arrived =
-                    difference < 1 * foot
-            in
-                { creature
-                    | position = position
-                    , action =
-                        if arrived then
-                            Idle
-                        else
-                            creature.action
-                }
-
-        Idle ->
-            creature
+            Idle ->
+                creature
 
 
 tick : Time -> World -> World
-tick time world =
-    { world | creatures = Dict.map (updateCreature time world) world.creatures }
+tick delta world =
+    { world | creatures = Dict.map (updateCreature delta world) world.creatures }

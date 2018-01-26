@@ -40,11 +40,12 @@ handleTileClick location tile model =
             model.world
 
         updater =
-            (\creature -> { creature | action = Action.GoTo location })
+            \creature -> { creature | action = Action.GoTo location }
 
         newWorld =
             { world
-                | creatures = Dict.update "player" (Maybe.map updater) world.creatures
+                | creatures =
+                    Dict.update "player" (Maybe.map updater) world.creatures
             }
     in
         { model | world = newWorld }

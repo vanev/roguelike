@@ -1,6 +1,6 @@
 module Game.World.Tick exposing (tick)
 
-import Dict
+import Dict exposing (Dict)
 import Time exposing (Time)
 import Game.World exposing (World)
 import Game.Creature exposing (Creature)
@@ -62,26 +62,48 @@ handleGoTo target delta world key creature =
         }
 
 
-nearbyEnemy : World -> Creature -> Maybe Creature
-nearbyEnemy world creature =
-    world.creatures
-        |> Dict.filter (\_ c -> c /= creature)
-        |> Dict.foldr
-            (\key potentialEnemy maybeClosestEnemy ->
-                case maybeClosestEnemy of
-                    Just closestEnemy ->
-                        if (Location.Extra.distance closestEnemy.location creature.location) > (Location.Extra.distance potentialEnemy.location creature.location) then
-                            Just potentialEnemy
-                        else
-                            Just closestEnemy
+isEnemy : Creature -> String -> Creature -> Bool
+isEnemy target key creature =
+    target /= creature
 
-                    Nothing ->
-                        if Location.Extra.within 20 potentialEnemy.location creature.location then
-                            Just potentialEnemy
-                        else
-                            Nothing
-            )
-            Nothing
+
+distance : Creature -> Creature -> Float
+distance a b =
+    Location.Extra.distance a.location b.location
+
+
+closer : Creature -> Creature -> Creature -> Creature
+closer target a b =
+    if distance target a < distance target b then
+        a
+    else
+        b
+
+
+isVisible : Creature -> String -> Creature -> Bool
+isVisible target key other =
+    Location.Extra.within 20 target.location other.location
+
+
+visibleEnemies : World -> Creature -> Dict String Creature
+visibleEnemies world creature =
+    world.creatures
+        |> Dict.filter (isEnemy creature)
+        |> Dict.filter (isVisible creature)
+
+
+nearestEnemy : World -> Creature -> Maybe Creature
+nearestEnemy world creature =
+    let
+        enemies =
+            creature
+                |> visibleEnemies world
+                |> Dict.values
+    in
+        List.foldr
+            (\current maybeClosest -> Maybe.map (closer creature current) maybeClosest)
+            (List.head enemies)
+            enemies
 
 
 skip : (comparable -> a -> Bool) -> (comparable -> a -> a) -> comparable -> a -> a
@@ -107,16 +129,11 @@ setAction delta world key creature =
     case creature.action of
         Idle ->
             let
-                maybeEnemy =
-                    nearbyEnemy world creature
-
                 action =
-                    case maybeEnemy of
-                        Just enemy ->
-                            GoTo enemy.location
-
-                        Nothing ->
-                            Idle
+                    creature
+                        |> nearestEnemy world
+                        |> Maybe.map (.location >> GoTo)
+                        |> Maybe.withDefault Idle
             in
                 { creature | action = action }
 

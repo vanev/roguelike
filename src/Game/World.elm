@@ -7,6 +7,7 @@ import Action exposing (Action(..))
 import Game.Creature exposing (Creature, Inventory)
 import Game.Item exposing (Item)
 import Game.Object exposing (Object)
+import Game.World.Initializer as Initializer
 
 
 type Tile
@@ -53,7 +54,7 @@ player =
 
 goblin : Creature
 goblin =
-    { location = ( 5, 10 )
+    { location = ( 5, 25 )
     , race = Game.Creature.Goblin
     , items = emptyItems
     , damage = 0
@@ -71,7 +72,7 @@ initial =
             , ( "goblin", goblin )
             ]
     , items = Dict.fromList []
-    , objects = Dict.fromList []
+    , objects = Initializer.initialObjects
     }
 
 

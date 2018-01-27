@@ -84,29 +84,44 @@ nearbyEnemy world creature =
             Nothing
 
 
+skip : (comparable -> a -> Bool) -> (comparable -> a -> a) -> comparable -> a -> a
+skip predicate fn comparable a =
+    if predicate comparable a then
+        a
+    else
+        fn comparable a
+
+
+isPlayer : String -> Creature -> Bool
+isPlayer key creature =
+    key == "player"
+
+
+skipPlayer : (String -> Creature -> Creature) -> String -> Creature -> Creature
+skipPlayer =
+    skip isPlayer
+
+
 setAction : Time -> World -> String -> Creature -> Creature
 setAction delta world key creature =
-    if key == "player" then
-        creature
-    else
-        case creature.action of
-            Idle ->
-                let
-                    maybeEnemy =
-                        nearbyEnemy world creature
+    case creature.action of
+        Idle ->
+            let
+                maybeEnemy =
+                    nearbyEnemy world creature
 
-                    action =
-                        case maybeEnemy of
-                            Just enemy ->
-                                GoTo enemy.location
+                action =
+                    case maybeEnemy of
+                        Just enemy ->
+                            GoTo enemy.location
 
-                            Nothing ->
-                                Idle
-                in
-                    { creature | action = action }
+                        Nothing ->
+                            Idle
+            in
+                { creature | action = action }
 
-            _ ->
-                creature
+        _ ->
+            creature
 
 
 performAction : Time -> World -> String -> Creature -> Creature
@@ -127,7 +142,7 @@ tick delta world =
     let
         creatures =
             world.creatures
-                |> Dict.map (setAction delta world)
+                |> Dict.map (skipPlayer (setAction delta world))
                 |> Dict.map (performAction delta world)
     in
         { world

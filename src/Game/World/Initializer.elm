@@ -2,6 +2,7 @@ module Game.World.Initializer exposing (..)
 
 import Dict exposing (Dict)
 import Game.Object exposing (Object, Material(..), Kind(..))
+import Matrix.Point
 
 
 newline : String
@@ -21,12 +22,16 @@ objectsFromString string =
         |> String.split newline
         |> List.map (String.split "")
         |> List.indexedMap
-            (\row symbols ->
+            (\y symbols ->
                 List.indexedMap
-                    (\col symbol ->
+                    (\x symbol ->
                         case symbol of
                             "#" ->
-                                Just (Object (Wall Stone) ( row, col ))
+                                Just
+                                    (Object
+                                        (Wall Stone)
+                                        (Matrix.Point.toPosition ( x, y ))
+                                    )
 
                             _ ->
                                 Nothing

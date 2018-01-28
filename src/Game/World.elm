@@ -1,8 +1,8 @@
 module Game.World exposing (..)
 
 import Dict exposing (Dict)
-import Matrix exposing (Matrix, Location)
-import Location.Extra
+import Matrix exposing (Matrix)
+import Matrix.Point
 import Action exposing (Action(..))
 import Game.Creature exposing (Creature, Inventory)
 import Game.Item exposing (Item)
@@ -43,7 +43,7 @@ emptyItems =
 
 player : Creature
 player =
-    { location = ( 5, 5 )
+    { position = Matrix.Point.toPosition ( 5, 5 )
     , race = Game.Creature.Human
     , items = emptyItems
     , damage = 0
@@ -54,7 +54,7 @@ player =
 
 goblin : Creature
 goblin =
-    { location = ( 5, 25 )
+    { position = Matrix.Point.toPosition ( 30, 5 )
     , race = Game.Creature.Goblin
     , items = emptyItems
     , damage = 0
@@ -65,7 +65,7 @@ goblin =
 
 initial : World
 initial =
-    { heightmap = Matrix.square 50 (always Dirt)
+    { heightmap = Matrix.repeat 50 50 Dirt
     , creatures =
         Dict.fromList
             [ ( "player", player )
@@ -74,24 +74,3 @@ initial =
     , items = Dict.fromList []
     , objects = Initializer.initialObjects
     }
-
-
-creatureAtLocation : Location -> World -> Maybe Creature
-creatureAtLocation location world =
-    Dict.values world.creatures
-        |> List.filter (.location >> Location.Extra.equals location)
-        |> List.head
-
-
-itemAtLocation : Location -> World -> Maybe Item
-itemAtLocation location world =
-    Dict.values world.items
-        |> List.filter (.location >> Location.Extra.equals location)
-        |> List.head
-
-
-objectAtLocation : Location -> World -> Maybe Object
-objectAtLocation location world =
-    Dict.values world.objects
-        |> List.filter (.location >> Location.Extra.equals location)
-        |> List.head

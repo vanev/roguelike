@@ -6,7 +6,7 @@ import Keyboard.Extra as Keyboard
 import Messages exposing (Msg(..))
 import Model exposing (Model)
 import Action exposing (Action)
-import Matrix exposing (Location)
+import Matrix.Point exposing (Point)
 import Game.World as World exposing (Tile)
 import Game.World.Tick
 
@@ -20,8 +20,8 @@ update msg model =
         KeyMsg keyMsg ->
             ( handleKeyMsg keyMsg model, Cmd.none )
 
-        TileClick location tile ->
-            ( handleTileClick location tile model, Cmd.none )
+        TileClick point tile ->
+            ( handleTileClick point tile model, Cmd.none )
 
         Tick delta ->
             ( handleTick delta model, Cmd.none )
@@ -34,14 +34,17 @@ handleKeyMsg keyMsg model =
     }
 
 
-handleTileClick : Location -> Tile -> Model -> Model
-handleTileClick location tile model =
+handleTileClick : Point -> Tile -> Model -> Model
+handleTileClick point tile model =
     let
         world =
             model.world
 
+        position =
+            Matrix.Point.toPosition point
+
         updater =
-            \creature -> { creature | action = Action.GoTo location }
+            \creature -> { creature | action = Action.GoTo position }
 
         newWorld =
             { world

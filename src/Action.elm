@@ -1,8 +1,8 @@
 module Action exposing (..)
 
-import Matrix exposing (Location)
+import Physics.Position exposing (Position)
 
 
 type Action
-    = GoTo Location
+    = GoTo Position
     | Idle

@@ -11,6 +11,7 @@ import View.Object
 import View.Item
 import View.Creature
 import Dict
+import Array.Hamt
 
 
 render : World -> Html Msg
@@ -18,9 +19,10 @@ render world =
     let
         heightmap =
             world.heightmap
-                |> Matrix.mapWithLocation View.Tile.render
-                |> Matrix.toList
-                |> List.concatMap identity
+                |> Matrix.indexedMap View.Tile.render
+                |> Matrix.toIndexedArray
+                |> Array.Hamt.toList
+                |> List.map Tuple.second
 
         objects =
             world.objects |> Dict.values |> List.map View.Object.render

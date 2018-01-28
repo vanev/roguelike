@@ -4,26 +4,25 @@ import Html exposing (Html, div)
 import Html.Attributes exposing (classList, style)
 import Html.Events exposing (onClick)
 import Messages exposing (Msg)
-import Matrix exposing (Location)
 import Game.World exposing (World, Tile)
 
 
-pixels : Int
-pixels =
+size : Int
+size =
     10
 
 
-render : Location -> Tile -> Html Msg
-render ( row, col ) tile =
+render : Int -> Int -> Tile -> Html Msg
+render x y tile =
     div
         [ classList
             [ ( "Tile", True )
             , ( toString tile, True )
             ]
         , style
-            [ ( "top", (toString (row * pixels)) ++ "px" )
-            , ( "left", (toString (col * pixels)) ++ "px" )
+            [ ( "top", (toString (y * size)) ++ "px" )
+            , ( "left", (toString (x * size)) ++ "px" )
             ]
-        , onClick (Messages.TileClick ( row, col ) tile)
+        , onClick (Messages.TileClick ( x, y ) tile)
         ]
         []

@@ -5,46 +5,34 @@ import Time exposing (Time)
 import Game.World exposing (World)
 import Game.Creature exposing (Creature)
 import Action exposing (Action(..))
-import Matrix exposing (Location)
-import Location.Extra
+import Matrix.Point
+import Physics.Position exposing (Position)
 
 
-handleGoTo : Location -> Time -> World -> String -> Creature -> Creature
+handleGoTo : Position -> Time -> World -> String -> Creature -> Creature
 handleGoTo target delta world key creature =
     let
-        targetRow =
-            Matrix.row target
-
-        targetCol =
-            Matrix.col target
-
-        creatureRow =
-            Matrix.row creature.location
-
-        creatureCol =
-            Matrix.col creature.location
-
-        row =
-            if targetRow > creatureRow then
-                creatureRow + 1
-            else if targetRow < creatureRow then
-                creatureRow - 1
+        x =
+            if target.x > creature.position.x then
+                creature.position.x + Matrix.Point.size
+            else if target.x < creature.position.x then
+                creature.position.x - Matrix.Point.size
             else
-                creatureRow
+                creature.position.x
 
-        col =
-            if targetCol > creatureCol then
-                creatureCol + 1
-            else if targetCol < creatureCol then
-                creatureCol - 1
+        y =
+            if target.y > creature.position.y then
+                creature.position.y + Matrix.Point.size
+            else if target.y < creature.position.y then
+                creature.position.y - Matrix.Point.size
             else
-                creatureCol
+                creature.position.y
 
-        location =
-            ( row, col )
+        nextStep =
+            Position x y
 
         arrived =
-            Location.Extra.equals location target
+            Physics.Position.distance nextStep target < Matrix.Point.size
 
         action =
             if arrived then
@@ -56,7 +44,7 @@ handleGoTo target delta world key creature =
             Game.Creature.cooldown creature
     in
         { creature
-            | location = location
+            | position = nextStep
             , action = action
             , cooldown = cooldown
         }
@@ -69,7 +57,7 @@ isEnemy target key creature =
 
 distance : Creature -> Creature -> Float
 distance a b =
-    Location.Extra.distance a.location b.location
+    Physics.Position.distance a.position b.position
 
 
 closer : Creature -> Creature -> Creature -> Creature
@@ -82,7 +70,7 @@ closer target a b =
 
 isVisible : Creature -> String -> Creature -> Bool
 isVisible target key other =
-    Location.Extra.within 20 target.location other.location
+    Physics.Position.distance target.position other.position < 20 * Matrix.Point.size
 
 
 visibleEnemies : World -> Creature -> Dict String Creature
@@ -132,7 +120,7 @@ setAction delta world key creature =
                 action =
                     creature
                         |> nearestEnemy world
-                        |> Maybe.map (.location >> GoTo)
+                        |> Maybe.map (.position >> GoTo)
                         |> Maybe.withDefault Idle
             in
                 { creature | action = action }

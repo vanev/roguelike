@@ -4,13 +4,15 @@ import Html exposing (Html, div)
 import Html.Attributes exposing (classList, style)
 import Messages exposing (Msg)
 import Game.Creature exposing (Creature)
+import Matrix.Point
+import View.Tile
 
 
 render : Creature -> Html Msg
 render creature =
     let
-        ( row, col ) =
-            creature.location
+        ( x, y ) =
+            Matrix.Point.fromPosition creature.position
     in
         div
             [ classList
@@ -18,8 +20,8 @@ render creature =
                 , ( (toString creature.race), True )
                 ]
             , style
-                [ ( "top", (toString (row * 10)) ++ "px" )
-                , ( "left", (toString (col * 10)) ++ "px" )
+                [ ( "top", (toString (y * View.Tile.size)) ++ "px" )
+                , ( "left", (toString (x * View.Tile.size)) ++ "px" )
                 ]
             ]
             []

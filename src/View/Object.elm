@@ -4,13 +4,15 @@ import Html exposing (Html, div)
 import Html.Attributes exposing (classList, style)
 import Messages exposing (Msg)
 import Game.Object exposing (Object)
+import Matrix.Point
+import View.Tile
 
 
 render : Object -> Html Msg
 render object =
     let
-        ( row, col ) =
-            object.location
+        ( x, y ) =
+            Matrix.Point.fromPosition object.position
     in
         div
             [ classList
@@ -18,8 +20,8 @@ render object =
                 , ( (toString object.kind), True )
                 ]
             , style
-                [ ( "top", (toString (row * 10)) ++ "px" )
-                , ( "left", (toString (col * 10)) ++ "px" )
+                [ ( "top", (toString (y * View.Tile.size)) ++ "px" )
+                , ( "left", (toString (x * View.Tile.size)) ++ "px" )
                 ]
             ]
             []

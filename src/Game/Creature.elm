@@ -1,8 +1,8 @@
 module Game.Creature exposing (..)
 
 import Dict exposing (Dict)
-import Matrix exposing (Location)
 import Time exposing (hour)
+import Physics.Position exposing (Position)
 import Physics.Distance exposing (mile, foot)
 import Physics.Speed exposing (Speed)
 import Action exposing (Action(..))
@@ -32,7 +32,7 @@ type alias Inventory =
 
 
 type alias Creature =
-    { location : Location
+    { position : Position
     , race : Race
     , items : Inventory
     , damage : Float

@@ -14,8 +14,8 @@ add a b =
     Position (a.x + b.x) (a.y + b.y)
 
 
-difference : Position -> Position -> Distance
-difference a b =
+distance : Position -> Position -> Distance
+distance a b =
     let
         x =
             a.x - b.x

@@ -1,41 +1,128 @@
 module Game.World.Tick exposing (tick)
 
 import Dict exposing (Dict)
+import List.Extra
+import Maybe.Extra
 import Time exposing (Time)
 import Game.World exposing (World)
 import Game.Creature exposing (Creature)
 import Action exposing (Action(..))
-import Matrix.Point
+import Matrix.Point exposing (Point)
 import Physics.Position exposing (Position)
+
+
+type alias ValuedPoint =
+    { point : Point
+    , value : Float
+    }
+
+
+type alias Queue =
+    List ValuedPoint
+
+
+addToQueue : ValuedPoint -> Queue -> Queue
+addToQueue vp queue =
+    List.Extra.find (\{ point, value } -> vp.point == point && vp.value >= value) queue
+        |> Maybe.Extra.isJust
+        |> (\shouldNotAdd ->
+                if shouldNotAdd then
+                    queue
+                else
+                    queue ++ [ vp ]
+           )
+
+
+adjacentPoints : Point -> List Point
+adjacentPoints ( x, y ) =
+    [ ( x + 1, y )
+    , ( x - 1, y )
+    , ( x, y + 1 )
+    , ( x, y - 1 )
+    ]
+
+
+valuePoint : World -> Creature -> Float -> Point -> ValuedPoint
+valuePoint world creature baseValue point =
+    ValuedPoint point baseValue
+
+
+adjacent : World -> Creature -> ValuedPoint -> List ValuedPoint
+adjacent world creature { point, value } =
+    adjacentPoints point
+        |> List.map (valuePoint world creature (value + 1))
+
+
+buildQueue : World -> Creature -> List ValuedPoint -> List ValuedPoint
+buildQueue world creature queue =
+    let
+        newQueue =
+            List.concatMap (adjacent world creature) queue
+                |> List.foldl addToQueue queue
+
+        origin =
+            Matrix.Point.fromPosition creature.position
+
+        includesOrigin =
+            List.Extra.find (\{ point, value } -> point == origin) newQueue
+                |> Maybe.Extra.isJust
+    in
+        if includesOrigin || (List.length newQueue > 1000) then
+            newQueue
+        else
+            buildQueue world creature newQueue
+
+
+initialValuedPoint : Point -> ValuedPoint
+initialValuedPoint point =
+    ValuedPoint point 0
+
+
+queue : World -> Creature -> Position -> Queue
+queue world creature target =
+    Matrix.Point.fromPosition target
+        |> initialValuedPoint
+        |> List.singleton
+        |> buildQueue world creature
+
+
+getAdjacentFromQueue : Point -> Queue -> List ValuedPoint
+getAdjacentFromQueue source queue =
+    let
+        aps =
+            adjacentPoints source
+    in
+        List.filter (\{ point, value } -> List.member point aps) queue
+
+
+nextStep : World -> Creature -> Position -> Maybe Position
+nextStep world creature target =
+    queue world creature target
+        |> getAdjacentFromQueue (Matrix.Point.fromPosition creature.position)
+        |> List.sortBy .value
+        |> List.reverse
+        |> List.head
+        |> Maybe.map .point
+        |> Maybe.map Matrix.Point.toPosition
 
 
 handleGoTo : Position -> Time -> World -> String -> Creature -> Creature
 handleGoTo target delta world key creature =
     let
-        x =
-            if target.x > creature.position.x then
-                creature.position.x + Matrix.Point.size
-            else if target.x < creature.position.x then
-                creature.position.x - Matrix.Point.size
-            else
-                creature.position.x
+        maybeNext =
+            nextStep world creature target
 
-        y =
-            if target.y > creature.position.y then
-                creature.position.y + Matrix.Point.size
-            else if target.y < creature.position.y then
-                creature.position.y - Matrix.Point.size
-            else
-                creature.position.y
+        shouldStopMoving =
+            case maybeNext of
+                Just next ->
+                    Physics.Position.distance target next
+                        |> (>) (Matrix.Point.size)
 
-        nextStep =
-            Position x y
-
-        arrived =
-            Physics.Position.distance nextStep target < Matrix.Point.size
+                Nothing ->
+                    True
 
         action =
-            if arrived then
+            if shouldStopMoving then
                 Idle
             else
                 creature.action
@@ -44,7 +131,7 @@ handleGoTo target delta world key creature =
             Game.Creature.cooldown creature
     in
         { creature
-            | position = nextStep
+            | position = Maybe.withDefault creature.position maybeNext
             , action = action
             , cooldown = cooldown
         }

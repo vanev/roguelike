@@ -1,9 +1,9 @@
-module Messages exposing (..)
+module Messages exposing (Msg(..))
 
-import Keyboard.Extra as Keyboard
-import Time exposing (Time)
-import Matrix.Point exposing (Point)
 import Game.World exposing (Tile)
+import Keyboard
+import Matrix.Point exposing (Point)
+import Physics.Time exposing (Time)
 
 
 type Msg

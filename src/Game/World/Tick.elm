@@ -1,14 +1,14 @@
 module Game.World.Tick exposing (tick)
 
-import Dict exposing (Dict)
-import List.Extra
-import Maybe.Extra
-import Time exposing (Time)
-import Game.World exposing (World)
-import Game.Creature exposing (Creature)
 import Action exposing (Action(..))
+import Dict exposing (Dict)
+import Game.Creature exposing (Creature)
+import Game.World exposing (World)
+import List.Extra
 import Matrix.Point exposing (Point)
+import Maybe.Extra
 import Physics.Position exposing (Position)
+import Physics.Time exposing (Time)
 
 
 type alias ValuedPoint =
@@ -28,6 +28,7 @@ addToQueue vp queue =
         |> (\shouldNotAdd ->
                 if shouldNotAdd then
                     queue
+
                 else
                     queue ++ [ vp ]
            )
@@ -67,10 +68,11 @@ buildQueue world creature queue =
             List.Extra.find (\{ point, value } -> point == origin) newQueue
                 |> Maybe.Extra.isJust
     in
-        if includesOrigin || (List.length newQueue > 1000) then
-            newQueue
-        else
-            buildQueue world creature newQueue
+    if includesOrigin || (List.length newQueue > 1000) then
+        newQueue
+
+    else
+        buildQueue world creature newQueue
 
 
 initialValuedPoint : Point -> ValuedPoint
@@ -78,8 +80,8 @@ initialValuedPoint point =
     ValuedPoint point 0
 
 
-queue : World -> Creature -> Position -> Queue
-queue world creature target =
+queueToPoint : World -> Creature -> Position -> Queue
+queueToPoint world creature target =
     Matrix.Point.fromPosition target
         |> initialValuedPoint
         |> List.singleton
@@ -92,12 +94,12 @@ getAdjacentFromQueue source queue =
         aps =
             adjacentPoints source
     in
-        List.filter (\{ point, value } -> List.member point aps) queue
+    List.filter (\{ point, value } -> List.member point aps) queue
 
 
 nextStep : World -> Creature -> Position -> Maybe Position
 nextStep world creature target =
-    queue world creature target
+    queueToPoint world creature target
         |> getAdjacentFromQueue (Matrix.Point.fromPosition creature.position)
         |> List.sortBy .value
         |> List.reverse
@@ -116,7 +118,7 @@ handleGoTo target delta world key creature =
             case maybeNext of
                 Just next ->
                     Physics.Position.distance target next
-                        |> (>) (Matrix.Point.size)
+                        |> (>) Matrix.Point.size
 
                 Nothing ->
                     True
@@ -124,17 +126,18 @@ handleGoTo target delta world key creature =
         action =
             if shouldStopMoving then
                 Idle
+
             else
                 creature.action
 
         cooldown =
             Game.Creature.cooldown creature
     in
-        { creature
-            | position = Maybe.withDefault creature.position maybeNext
-            , action = action
-            , cooldown = cooldown
-        }
+    { creature
+        | position = Maybe.withDefault creature.position maybeNext
+        , action = action
+        , cooldown = cooldown
+    }
 
 
 isEnemy : Creature -> String -> Creature -> Bool
@@ -151,6 +154,7 @@ closer : Creature -> Creature -> Creature -> Creature
 closer target a b =
     if distance target a < distance target b then
         a
+
     else
         b
 
@@ -175,16 +179,17 @@ nearestEnemy world creature =
                 |> visibleEnemies world
                 |> Dict.values
     in
-        List.foldr
-            (\current maybeClosest -> Maybe.map (closer creature current) maybeClosest)
-            (List.head enemies)
-            enemies
+    List.foldr
+        (\current maybeClosest -> Maybe.map (closer creature current) maybeClosest)
+        (List.head enemies)
+        enemies
 
 
 skip : (comparable -> a -> Bool) -> (comparable -> a -> a) -> comparable -> a -> a
 skip predicate fn comparable a =
     if predicate comparable a then
         a
+
     else
         fn comparable a
 
@@ -210,7 +215,7 @@ setAction delta world key creature =
                         |> Maybe.map (.position >> GoTo)
                         |> Maybe.withDefault Idle
             in
-                { creature | action = action }
+            { creature | action = action }
 
         _ ->
             creature
@@ -220,6 +225,7 @@ performAction : Time -> World -> String -> Creature -> Creature
 performAction delta world key creature =
     if creature.cooldown >= 0 then
         { creature | cooldown = creature.cooldown - delta }
+
     else
         case creature.action of
             GoTo target ->
@@ -237,6 +243,6 @@ tick delta world =
                 |> Dict.map (skipPlayer (setAction delta world))
                 |> Dict.map (performAction delta world)
     in
-        { world
-            | creatures = creatures
-        }
+    { world
+        | creatures = creatures
+    }

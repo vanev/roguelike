@@ -1,12 +1,12 @@
 module View exposing (view)
 
-import Model exposing (Model)
 import Game.World exposing (World)
-import View.Panel exposing (Panel, Size, Position, Content(Node), render)
-import View.World
-import View.Sidebar
-import Messages exposing (Msg)
 import Html exposing (Html, div)
+import Messages exposing (Msg)
+import Model exposing (Model)
+import View.Panel exposing (Content(..), Panel, Position, Size, render)
+import View.Sidebar
+import View.World
 
 
 worldPanel : World -> Panel

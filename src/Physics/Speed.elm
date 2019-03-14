@@ -1,7 +1,7 @@
-module Physics.Speed exposing (..)
+module Physics.Speed exposing (Speed, time)
 
 import Physics.Distance exposing (Distance)
-import Time exposing (Time)
+import Physics.Time exposing (Time)
 
 
 type alias Speed =

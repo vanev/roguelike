@@ -1,8 +1,8 @@
-module Model exposing (..)
+module Model exposing (Model, initial)
 
 import Game.World as World exposing (World)
+import Keyboard exposing (Key)
 import Log exposing (Log)
-import Keyboard.Extra exposing (Key)
 
 
 type alias Model =

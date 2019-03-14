@@ -1,7 +1,7 @@
-module Game.World.Initializer exposing (..)
+module Game.World.Initializer exposing (empty, initialObjects, newline, objectsFromString)
 
 import Dict exposing (Dict)
-import Game.Object exposing (Object, Material(..), Kind(..))
+import Game.Object exposing (Kind(..), Material(..), Object)
 import Matrix.Point
 
 
@@ -40,7 +40,7 @@ objectsFromString string =
             )
         |> List.concatMap identity
         |> List.filterMap identity
-        |> List.indexedMap (\index object -> ( "object" ++ (toString index), object ))
+        |> List.indexedMap (\index object -> ( "object" ++ String.fromInt index, object ))
         |> Dict.fromList
 
 

@@ -2,7 +2,7 @@
 require('./index.html')
 require('./styles/index.scss')
 
-var Elm = require('./Main.elm')
-var mountNode = document.getElementById('app')
+const { Elm } = require('./Main.elm')
+const node = document.getElementById('app');
 
-var app = Elm.Main.embed(mountNode)
+const app = Elm.Main.init({ node })

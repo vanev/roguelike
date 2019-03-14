@@ -1,14 +1,14 @@
 module Update exposing (update)
 
-import Dict
-import Time exposing (Time)
-import Keyboard.Extra as Keyboard
-import Messages exposing (Msg(..))
-import Model exposing (Model)
 import Action exposing (Action)
-import Matrix.Point exposing (Point)
+import Dict
 import Game.World as World exposing (Tile)
 import Game.World.Tick
+import Keyboard
+import Matrix.Point exposing (Point)
+import Messages exposing (Msg(..))
+import Model exposing (Model)
+import Physics.Time exposing (Time)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -52,7 +52,7 @@ handleTileClick point tile model =
                     Dict.update "player" (Maybe.map updater) world.creatures
             }
     in
-        { model | world = newWorld }
+    { model | world = newWorld }
 
 
 handleTick : Time -> Model -> Model

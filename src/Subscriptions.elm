@@ -1,14 +1,14 @@
-module Subscriptions exposing (..)
+module Subscriptions exposing (subscriptions)
 
-import Model exposing (Model)
+import Browser.Events exposing (onAnimationFrameDelta)
+import Keyboard
 import Messages exposing (Msg(..))
-import Keyboard.Extra as Keyboard
-import AnimationFrame
+import Model exposing (Model)
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ Sub.map KeyMsg Keyboard.subscriptions
-        , AnimationFrame.diffs Tick
+        , onAnimationFrameDelta Tick
         ]

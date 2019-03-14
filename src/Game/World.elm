@@ -1,13 +1,13 @@
-module Game.World exposing (..)
+module Game.World exposing (Tile(..), World, emptyItems, goblin, initial, player)
 
-import Dict exposing (Dict)
-import Matrix exposing (Matrix)
-import Matrix.Point
 import Action exposing (Action(..))
+import Dict exposing (Dict)
 import Game.Creature exposing (Creature, Inventory)
 import Game.Item exposing (Item)
 import Game.Object exposing (Object)
 import Game.World.Initializer as Initializer
+import Matrix exposing (Matrix)
+import Matrix.Point
 
 
 type Tile

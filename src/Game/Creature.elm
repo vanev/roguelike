@@ -1,12 +1,12 @@
-module Game.Creature exposing (..)
+module Game.Creature exposing (Creature, Inventory, Race(..), cooldown, hitPoints, speed)
 
-import Dict exposing (Dict)
-import Time exposing (hour)
-import Physics.Position exposing (Position)
-import Physics.Distance exposing (mile, foot)
-import Physics.Speed exposing (Speed)
 import Action exposing (Action(..))
+import Dict exposing (Dict)
 import Game.Item exposing (Item)
+import Physics.Distance exposing (foot, mile)
+import Physics.Position exposing (Position)
+import Physics.Speed exposing (Speed)
+import Physics.Time exposing (hour)
 
 
 type Race
@@ -74,4 +74,4 @@ hitPoints creature =
                 Goblin ->
                     10
     in
-        baseHitPoints - creature.damage
+    baseHitPoints - creature.damage

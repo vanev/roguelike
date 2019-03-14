@@ -1,17 +1,17 @@
 module View.World exposing (content)
 
+import Array
+import Dict
+import Game.World exposing (Tile, World)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
-import Messages exposing (Msg)
 import Matrix exposing (Matrix)
-import Game.World exposing (World, Tile)
-import View.Panel exposing (Content(Leaf))
-import View.Tile
-import View.Object
-import View.Item
+import Messages exposing (Msg)
 import View.Creature
-import Dict
-import Array.Hamt
+import View.Item
+import View.Object
+import View.Panel exposing (Content(..))
+import View.Tile
 
 
 render : World -> Html Msg
@@ -21,7 +21,7 @@ render world =
             world.heightmap
                 |> Matrix.indexedMap View.Tile.render
                 |> Matrix.toIndexedArray
-                |> Array.Hamt.toList
+                |> Array.toList
                 |> List.map Tuple.second
 
         objects =
@@ -36,7 +36,7 @@ render world =
         children =
             heightmap ++ objects ++ items ++ creatures
     in
-        div [ class "World" ] children
+    div [ class "World" ] children
 
 
 content : World -> Content

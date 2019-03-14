@@ -1,9 +1,9 @@
-module View.Panel exposing (Panel, Size, Position, Content(..), render)
+module View.Panel exposing (Content(..), Panel, Position, Size, render)
 
-import Messages exposing (Msg)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (style)
 import List exposing (map)
+import Messages exposing (Msg)
 
 
 pixelsPerUnit : Int
@@ -48,14 +48,12 @@ render panel =
 renderLeaf : Html Msg -> Panel -> Html Msg
 renderLeaf content panel =
     div
-        [ style
-            [ ( "border", "1px solid black" )
-            , ( "width", (toString (panel.size.width * pixelsPerUnit)) ++ "px" )
-            , ( "height", (toString (panel.size.height * pixelsPerUnit)) ++ "px" )
-            , ( "position", "absolute" )
-            , ( "top", (toString (panel.position.y * pixelsPerUnit)) ++ "px" )
-            , ( "left", (toString (panel.position.x * pixelsPerUnit)) ++ "px" )
-            ]
+        [ style "border" "1px solid black"
+        , style "width" (String.fromInt (panel.size.width * pixelsPerUnit) ++ "px")
+        , style "height" (String.fromInt (panel.size.height * pixelsPerUnit) ++ "px")
+        , style "position" "absolute"
+        , style "top" (String.fromInt (panel.position.y * pixelsPerUnit) ++ "px")
+        , style "left" (String.fromInt (panel.position.x * pixelsPerUnit) ++ "px")
         ]
         [ content ]
 
@@ -63,13 +61,11 @@ renderLeaf content panel =
 renderNode : List Panel -> Panel -> Html Msg
 renderNode panels panel =
     div
-        [ style
-            [ ( "border", "1px solid black" )
-            , ( "width", (toString (panel.size.width * pixelsPerUnit)) ++ "px" )
-            , ( "height", (toString (panel.size.height * pixelsPerUnit)) ++ "px" )
-            , ( "position", "absolute" )
-            , ( "top", (toString (panel.position.y * pixelsPerUnit)) ++ "px" )
-            , ( "left", (toString (panel.position.x * pixelsPerUnit)) ++ "px" )
-            ]
+        [ style "border" "1px solid black"
+        , style "width" (String.fromInt (panel.size.width * pixelsPerUnit) ++ "px")
+        , style "height" (String.fromInt (panel.size.height * pixelsPerUnit) ++ "px")
+        , style "position" "absolute"
+        , style "top" (String.fromInt (panel.position.y * pixelsPerUnit) ++ "px")
+        , style "left" (String.fromInt (panel.position.x * pixelsPerUnit) ++ "px")
         ]
         (map render panels)

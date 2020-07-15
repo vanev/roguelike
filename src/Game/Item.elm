@@ -1,4 +1,4 @@
-module Game.Item exposing (..)
+module Game.Item exposing (Item, Kind(..), Slot(..))
 
 import Physics.Position exposing (Position)
 

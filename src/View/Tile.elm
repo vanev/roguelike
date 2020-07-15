@@ -1,6 +1,6 @@
 module View.Tile exposing (render, size)
 
-import Game.World exposing (Tile(..), World)
+import Game.World exposing (Tile(..))
 import Html exposing (Html, div)
 import Html.Attributes exposing (classList, style)
 import Html.Events exposing (onClick)

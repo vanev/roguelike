@@ -1,4 +1,4 @@
-module Log exposing (..)
+module Log exposing (Log, addLine, initial)
 
 
 type alias Log =
@@ -21,9 +21,9 @@ addLine line log =
             log.lines ++ [ line ]
 
         newCurrent =
-            (List.length newLines) - 1
+            List.length newLines - 1
     in
-        { log
-            | lines = newLines
-            , current = newCurrent
-        }
+    { log
+        | lines = newLines
+        , current = newCurrent
+    }

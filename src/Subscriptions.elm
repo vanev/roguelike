@@ -7,7 +7,7 @@ import Model exposing (Model)
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.batch
         [ Sub.map KeyMsg Keyboard.subscriptions
         , onAnimationFrameDelta Tick

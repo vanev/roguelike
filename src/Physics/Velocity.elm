@@ -1,9 +1,9 @@
 module Physics.Velocity exposing (Velocity, transform)
 
-import Time exposing (Time)
-import Physics.Speed exposing (Speed)
 import Physics.Direction exposing (Direction)
 import Physics.Position exposing (Position)
+import Physics.Speed exposing (Speed)
+import Time exposing (Posix, posixToMillis)
 
 
 type alias Velocity =
@@ -12,22 +12,22 @@ type alias Velocity =
     }
 
 
-delta : Time -> Velocity -> Position
+delta : Posix -> Velocity -> Position
 delta time { speed, direction } =
     let
         distance =
-            speed * time
+            speed * toFloat (posixToMillis time)
 
         y =
-            (sin direction) * distance
+            sin direction * distance
 
         x =
-            (cos direction) * distance
+            cos direction * distance
     in
-        Position x y
+    Position x y
 
 
-transform : Position -> Time -> Velocity -> Position
+transform : Position -> Posix -> Velocity -> Position
 transform source time velocity =
     delta time velocity
         |> Physics.Position.add source

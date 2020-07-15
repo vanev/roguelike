@@ -2,10 +2,10 @@ module View.World exposing (content)
 
 import Array
 import Dict
-import Game.World exposing (Tile, World)
+import Game.World exposing (World)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
-import Matrix exposing (Matrix)
+import Matrix
 import Messages exposing (Msg)
 import View.Creature
 import View.Item

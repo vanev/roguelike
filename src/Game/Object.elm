@@ -1,4 +1,4 @@
-module Game.Object exposing (..)
+module Game.Object exposing (Kind(..), Material(..), Object)
 
 import Physics.Position exposing (Position)
 

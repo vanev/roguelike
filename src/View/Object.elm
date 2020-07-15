@@ -11,10 +11,10 @@ import View.Tile
 kindToString : Kind -> String
 kindToString kind =
     case kind of
-        Door material ->
+        Door _ ->
             "Door"
 
-        Wall material ->
+        Wall _ ->
             "Wall"
 
 

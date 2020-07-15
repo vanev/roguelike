@@ -1,4 +1,4 @@
-module View.Symbols exposing (..)
+module View.Symbols exposing (blank, lineBreak)
 
 
 blank : String

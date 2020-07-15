@@ -1,4 +1,4 @@
-module Matrix.Point exposing (..)
+module Matrix.Point exposing (Point, fromPosition, size, toPosition)
 
 import Physics.Distance exposing (Distance, foot)
 import Physics.Position exposing (Position)
@@ -15,7 +15,7 @@ size =
 
 toPosition : Point -> Position
 toPosition ( x, y ) =
-    Position ((toFloat x) * size) ((toFloat y) * size)
+    Position (toFloat x * size) (toFloat y * size)
 
 
 fromPosition : Position -> Point

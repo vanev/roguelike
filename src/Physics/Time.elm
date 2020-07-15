@@ -1,4 +1,4 @@
-module Physics.Time exposing (Time, hour, millisecond, minute, second)
+module Physics.Time exposing (Time, day, hour, millisecond, minute, second)
 
 
 type alias Time =

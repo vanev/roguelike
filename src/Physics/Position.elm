@@ -1,4 +1,4 @@
-module Physics.Position exposing (..)
+module Physics.Position exposing (Position, add, distance, equals, map)
 
 import Physics.Distance exposing (Distance)
 
@@ -23,7 +23,7 @@ distance a b =
         y =
             a.y - b.y
     in
-        sqrt (x ^ 2 + y ^ 2)
+    sqrt (x ^ 2 + y ^ 2)
 
 
 map : (Float -> Float) -> Position -> Position

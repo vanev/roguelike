@@ -3,6 +3,7 @@ module Matrix exposing
     , empty
     , fromList
     , get
+    , getColumn
     , getRow
     , height
     , indexedMap

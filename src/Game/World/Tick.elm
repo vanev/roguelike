@@ -44,7 +44,7 @@ adjacentPoints ( x, y ) =
 
 
 valuePoint : World -> Creature -> Float -> Point -> ValuedPoint
-valuePoint world creature baseValue point =
+valuePoint _ _ baseValue point =
     ValuedPoint point baseValue
 
 
@@ -65,7 +65,7 @@ buildQueue world creature queue =
             Matrix.Point.fromPosition creature.position
 
         includesOrigin =
-            List.Extra.find (\{ point, value } -> point == origin) newQueue
+            List.Extra.find (\{ point } -> point == origin) newQueue
                 |> Maybe.Extra.isJust
     in
     if includesOrigin || (List.length newQueue > 1000) then
@@ -94,7 +94,7 @@ getAdjacentFromQueue source queue =
         aps =
             adjacentPoints source
     in
-    List.filter (\{ point, value } -> List.member point aps) queue
+    List.filter (\{ point } -> List.member point aps) queue
 
 
 nextStep : World -> Creature -> Position -> Maybe Position
@@ -109,7 +109,7 @@ nextStep world creature target =
 
 
 handleGoTo : Position -> Time -> World -> String -> Creature -> Creature
-handleGoTo target delta world key creature =
+handleGoTo target _ world _ creature =
     let
         maybeNext =
             nextStep world creature target
@@ -141,7 +141,7 @@ handleGoTo target delta world key creature =
 
 
 isEnemy : Creature -> String -> Creature -> Bool
-isEnemy target key creature =
+isEnemy target _ creature =
     target /= creature
 
 
@@ -160,7 +160,7 @@ closer target a b =
 
 
 isVisible : Creature -> String -> Creature -> Bool
-isVisible target key other =
+isVisible target _ other =
     Physics.Position.distance target.position other.position < 20 * Matrix.Point.size
 
 
@@ -195,7 +195,7 @@ skip predicate fn comparable a =
 
 
 isPlayer : String -> Creature -> Bool
-isPlayer key creature =
+isPlayer key _ =
     key == "player"
 
 
@@ -205,7 +205,7 @@ skipPlayer =
 
 
 setAction : Time -> World -> String -> Creature -> Creature
-setAction delta world key creature =
+setAction _ world _ creature =
     case creature.action of
         Idle ->
             let

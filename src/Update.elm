@@ -1,8 +1,8 @@
 module Update exposing (update)
 
-import Action exposing (Action)
+import Action
 import Dict
-import Game.World as World exposing (Tile)
+import Game.World exposing (Tile)
 import Game.World.Tick
 import Keyboard
 import Matrix.Point exposing (Point)
@@ -35,7 +35,7 @@ handleKeyMsg keyMsg model =
 
 
 handleTileClick : Point -> Tile -> Model -> Model
-handleTileClick point tile model =
+handleTileClick point _ model =
     let
         world =
             model.world

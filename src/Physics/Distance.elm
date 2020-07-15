@@ -1,4 +1,20 @@
-module Physics.Distance exposing (..)
+module Physics.Distance exposing
+    ( Distance
+    , centimeter
+    , foot
+    , inCentimeters
+    , inFeet
+    , inInch
+    , inMeters
+    , inMiles
+    , inMillimeters
+    , inYards
+    , inch
+    , meter
+    , mile
+    , millimeter
+    , yard
+    )
 
 
 type alias Distance =

@@ -1,4 +1,4 @@
-module Action exposing (..)
+module Action exposing (Action(..))
 
 import Physics.Position exposing (Position)
 
